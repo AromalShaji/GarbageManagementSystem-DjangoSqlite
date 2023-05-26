@@ -252,8 +252,8 @@ def reg(request):
                                email_from, recipient_list)
         message.content_subtype = 'html'
         message.send()
-        account_sid = "AC00fa278c303144f1d5fc2da41377df86"
-        auth_token = "e7caf736bebe734b482d2279bc5acc45"
+        account_sid = "your sid"
+        auth_token = "token"
         client = Client(account_sid, auth_token)
         try:
             message = client.messages.create(
@@ -322,8 +322,8 @@ def companyreg(request):
                                email_from, recipient_list)
         message.content_subtype = 'html'
         message.send()
-        # account_sid = "AC00fa278c303144f1d5fc2da41377df86"
-        # auth_token = "e7caf736bebe734b482d2279bc5acc45"
+        # account_sid = "your sid"
+        # auth_token = "token"
         # client = Client(account_sid, auth_token)
         # message = client.messages.create(
         #     body="ECO-CYCLE ♻ : Account created successfully ✅",
