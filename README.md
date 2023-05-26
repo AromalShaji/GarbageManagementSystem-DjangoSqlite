@@ -1,5 +1,6 @@
 # Garbage-Management-System-Django-Sqlite
 
+![Uploading home.png…]()
 
 
 1. Make sure to give your email and password in the setting.py of main app.
