@@ -9,7 +9,7 @@
     - open manage your account 
     - search for less secure app
     - if it is OFF then ON that
-   -else
+    -else
     -remove ever mail section from the code
     
    -if you need messageing system:
