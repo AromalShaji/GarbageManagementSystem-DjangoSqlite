@@ -1,6 +1,6 @@
 # Garbage-Management-System-Django-Sqlite
 
-![alt text]("C:\Users\aroma\Downloads\home.png")
+
 
 
 1. Make sure to give your email and password in the setting.py of main app.
