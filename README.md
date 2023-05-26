@@ -18,4 +18,6 @@
     -genereate token and sid
     -put these two in the corressponding position in the Home/views.py
     
-2. install xhtml2pdf 
+2. install xhtml2pdf
+3. install twilio
+
