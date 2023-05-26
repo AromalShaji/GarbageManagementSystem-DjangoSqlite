@@ -10,8 +10,8 @@
     - search for less secure app
     - if it is OFF then ON that
     - else
-    - remove ever mail section from the code
-    - 
+    - remove ever mail section from the code 
+    
 2. Make sure to give sid and token in the message section of the code 
    - if you need messageing system:
     - open twilio
@@ -20,5 +20,6 @@
     - put these two in the corressponding position in the Home/views.py
     
 3. install xhtml2pdf
-4. install twilio
-
+   -> pip install xhtml2pdf
+5. install twilio
+   -> pip install twilio
