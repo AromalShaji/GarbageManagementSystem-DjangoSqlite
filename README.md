@@ -11,13 +11,14 @@
     - if it is OFF then ON that
     - else
     - remove ever mail section from the code
-    
+    - 
+2. Make sure to give sid and token in the message section of the code 
    - if you need messageing system:
     - open twilio
     - create your account
     - genereate token and sid
     - put these two in the corressponding position in the Home/views.py
     
-2. install xhtml2pdf
-3. install twilio
+3. install xhtml2pdf
+4. install twilio
 
