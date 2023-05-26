@@ -1,0 +1,884 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" type="image/png"
+        href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title%}
+        {{companydetails.cname}} Details
+        {% endblock %}
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css.map' %}">
+    <link rel="stylesheet" href="{% static 'css/style.scss' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+</head>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #515050;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+
+<body style="background-image: url(../static/images/profile.jpg); background-size:contain;">
+    <!-- header section strats -->
+    <header class="header_section">
+        <section>
+            <!-- header section strats -->
+            <header class="header_section">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg custom_nav-container  navbar-dark bg-dark"
+                        style="opacity: 0.9; border-radius: 30px; width: 100%; align-items: center;">
+                        <a class="navbar-brand">
+                            <span class="glow">
+                                &nbsp;&nbsp;&nbsp; Eco-Cycle
+                            </span>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class=""> </span>
+                        </button>
+
+                        <div class="collapse navbar-collapse container-fluid col-sm-18" id="navbarSupportedContent">
+                            <ul class="navbar-nav  mx-auto container-fluid col-sm-20">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index' %}">Home<span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#about_section layout_padding">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> {{dis}}</a>
+                                </li>
+                                {% if 'organization' in dis.role %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">PROVIDE JOB OFFER</a>
+                                </li>
+                                {% endif %}
+                                </li>
+                            </ul>
+                            <div class="user_option">
+                                {% if 'id' in request.session %}
+                                <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                                {% else %}
+                                <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <!-- end header section -->
+        </section>
+    </header>
+    <!-- end header section -->
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title font-weight-bold">
+                    <div class="container">
+
+                        <h1>{{companydetails.cname}}<span></span><span> Company</span></h1>
+                    </div>
+                </h3>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <div class="white-box text-center"><br><img src="{{companydetails.cimg.url}}" class="img-fluid">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-right" style="margin-left: 290px;">
+                        {% if 'customer' in dis.role %}
+                        <form method="post" action="{% url 'companyrate' companydetails.id %}"
+                            style="height: 260px; border-radius: 40px; margin-bottom: -40px;">
+                            {% csrf_token %}
+                            <center>
+                                <b><br>Rate the service of {{companydetails.cname}}<br><br></b>
+                                <div class="rate" required>
+                                    <input type="radio" id="star5" name="rate" value="5" />
+                                    <label for="star5" title="text">5 stars</label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text">4 stars</label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label for="star3" title="text">3 stars</label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text">2 stars</label>
+                                    <input type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text">1 star</label>
+                                </div>
+                                <button class="bi bi-star btn btn-secondary" aria-hidden="true">Post</button>
+                                <input type="text" name="feedback" placeholder="COMMENT"
+                                    style="border-radius: 10px; margin-bottom: 20px; width: 230px; font-family: 'Courier New', Courier, monospace; color: #ef0505; font-size: medium; height: 70px;" /><br>
+                            </center>
+                        </form>
+                        {% endif %}
+
+                        {% if dumbster_details %}
+                        {% if dumbster_details.number > '0' %}
+                        <div class="card-body"
+                            style="margin-top: -60px; margin-bottom: -70px; margin-right: 0px; margin-left: -10px;">
+                            <section class="offer_section layout_padding-bottom"
+                                id="offer_section layout_padding-bottom">
+                                <div class="offer_container">
+                                    <div class="container">
+                                        <div class="row grid" style="width: fit-content;">
+                                            <div class="col-sm-5 col-lg-8">
+                                                <div class="box"
+                                                    style="width: 200px;  background: linear-gradient(45deg, #552f10, #1a3e1b, #4b0892); border-radius: 20px;">
+                                                    <div class="detail-box">
+                                                        <h5>
+                                                            <center>
+                                                                {% if dumbster_details.number >= '3' %} <span
+                                                                    class="badge"
+                                                                    style="background-color: rgb(11, 140, 39); color: white; text-align: center; border-radius: 10px;">
+                                                                    Only
+                                                                    {{dumbster_details.number}} dumbster left
+                                                                </span><br>
+                                                                {% else %}
+                                                                <span class="badge"
+                                                                    style="background-color: rgb(140, 28, 11); color: white; text-align: center; border-radius: 10px;">Only
+                                                                    {{dumbster_details.number}} dumbster left
+                                                                </span><br>
+                                                                {% endif %}
+                                                                <b>Rent Dumpster<br>
+                                                                    Rate: {{dumbster_details.rate}}
+                                                                </b>
+                                                            </center>
+                                                        </h5>
+                                                        <h6>
+                                                            <small></small>
+                                                        </h6>
+                                                        {% if 'company' in dis.role %}
+                                                        <button class="glow-on-hover ">Can't Rent</button>
+                                                        {% elif 'customer' in dis.role %}
+                                                        <form method="post"
+                                                            action="{% url 'bookdumbsterpage' dumbster_details.companyid%}">
+                                                            {%csrf_token%}
+                                                            <button type="submit"
+                                                                href="{% url 'bookdumbsterpage' dumbster_details.companyid%}"
+                                                                class="glow-on-hover" type="submit">Rent
+                                                                Now</button>
+                                                        </form>
+                                                        {% else %}
+                                                        <form method="post" action="{% url 'signin' %}">
+                                                            {% csrf_token %}
+                                                            <button class="glow-on-hover" type="submit">Rent
+                                                                Now</button>
+                                                        </form>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="">
+                        <h5 class="box-title mt-2 font-weight-bold text-danger" style="margin-left: 10px;"><b>About</b>
+                        </h5>
+                        <p style="margin-left: 10px;">
+                            <b>
+                                {{companydetails.cname}} provide services to the customer on area
+                                {{companydetails.carea}}.<br>
+                                location <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                </svg> :{{companydetails.caddress}} ,
+                                {{companydetails.clocation}} , {{companydetails.cpincode}}<br><br>
+                                For any Additional queries contact us :<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-telephone-fill"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                </svg> : {{companydetails.cphone}} ,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z" />
+                                    <path
+                                        d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z" />
+                                </svg> : {{companydetails.cemail}}<br><br>
+                                <h5
+                                    style="background-color: #c4a73f; width: 1110px; margin-left: 8px; border-radius: 20px; margin-right: 8px;">
+                                    <br>
+                                    <center>
+                                        <b style="margin-left: 10px;">Service Rate:</b>
+                                        <span class="box-title mt-2 font-weight-bold text-danger"
+                                            style="margin-left: 10px;">{{companydetails.crate}}
+                                        </span>
+                                    </center>
+                                    <br><br>
+                                </h5>
+                            </b>
+                        </p>
+                        <!-- book btn -->
+                        <center>
+                            {% if 'company' in dis.role %}
+                            <button class="glow-on-hover" style="height: 40px;">Can't Book</button>
+                            {% elif 'customer' in dis.role %}
+                            <form method="post" action="{% url 'servicebookingpage' companydetails.id%}">
+                                {%csrf_token%}
+                                <button type="submit" href="{% url 'servicebookingpage' companydetails.id%}"
+                                    class="glow-on-hover" type="submit" style="height: 40px;">Book Now</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'signin' %}">
+                                {% csrf_token %}
+                                <button class="glow-on-hover" type="submit" style="height: 40px;">Book Now</button>
+                            </form>
+                            {% endif %}
+                        </center>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <!-- job offer -->
+            <div class="card-body">
+                <h5 class="box-title mt-2 font-weight-bold text-danger"><b>Job Offers</b></h5><br>
+                <!-- content -->
+                <section class="offer_section layout_padding-bottom bg-dark" id="offer_section layout_padding-bottom">
+                    <div class="offer_container bg-dark">
+                        <div id="job-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <!-- driver -->
+                                <div class="carousel-item active">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-10 col-sm-12">
+                                                <center>
+                                                    {% for i in driver_details %}
+                                                    {% if i.vacancy >= 0 %}
+                                                    <div class="box bg-dark w-300"
+                                                        style="background: linear-gradient(45deg, #000000, #1a3e1b, #4b0892); border-radius: 40px;">
+                                                        <div class="img-circle">
+                                                            <img src="{% static '/images/wastecollecting.jpg' %}"
+                                                                alt="image" />
+                                                        </div>
+                                                        <div class="detail-box">
+                                                            <h5>
+                                                                {% if i.vacancy >= 3%}
+                                                                <span class="badge badge-success"
+                                                                    style="border-radius: 10px;">Only
+                                                                    {{i.vacancy}}
+                                                                    vacancy left</span><br>
+                                                                {% else %}
+                                                                <span class="badge badge-danger"
+                                                                    style="border-radius: 10px;">Only
+                                                                    {{i.vacancy}}
+                                                                    vacancy
+                                                                    left</span><br>
+                                                                {% endif %}
+                                                                Driver for <b>{{i.companyid}}</b>
+                                                                <p class="register-now">Register Now</p>
+                                                            </h5>
+                                                            <h6>
+                                                                <small>{{i.salary}}/salary</small> <br>
+                                                            </h6>
+                                                            <form method="post"
+                                                                action="{% url 'jobdriverdetails' i.id%}">
+                                                                {% csrf_token %}
+                                                                <button type="submit"
+                                                                    href="{% url 'jobdriverdetails' i.id%}"
+                                                                    class="glow-on-hover">View
+                                                                    Now</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- employee -->
+                                <div class="carousel-item">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-10 col-sm-12">
+                                                <center>
+                                                    {% for j in employee_details %}
+                                                    {% if j.vacancy > 0 %}
+                                                    <div class="box bg-dark w-750"
+                                                        style="background: linear-gradient(45deg, #230261, #384792, #810505); border-radius: 40px;">
+                                                        <div class="img-circle">
+                                                            <img src="{% static '/images/wastecollecting.jpg' %}"
+                                                                alt="image">
+                                                        </div>
+                                                        <div class="detail-box">
+                                                            <h5>
+                                                                {% if j.vacancy >= 3%}
+                                                                <span class="badge badge-success"
+                                                                    style="border-radius: 10px;">Only
+                                                                    {{j.vacancy}} vacancy left</span><br>
+                                                                {% else %}
+                                                                <span class="badge badge-danger"
+                                                                    style="border-radius: 10px;">Only
+                                                                    {{j.vacancy}} vacancy left</span><br>
+                                                                {% endif %}
+                                                                Employee for <b>{{j.companyid}}</b>
+                                                                <p class="register-now">Register Now</p>
+                                                            </h5>
+                                                            <h6>
+                                                                <small>{{j.salary}}/salary</small> <br>
+                                                            </h6>
+                                                            <form method="post"
+                                                                action="{%url 'jobemployeedetails' j.id%}">
+                                                                {% csrf_token %}
+                                                                <button type="submit"
+                                                                    href="{%url 'jobemployeedetails' j.id%}"
+                                                                    class="glow-on-hover">View Now</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#job-carousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#job-carousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- rating -->
+            <div class="card-body">
+                <h3 class="card-title font-weight-bold">Rating</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Comment</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rating-table">
+                            {% for i in rating %}
+                            <tr>
+                                <td>{{i.userid}}</td>
+                                <td>{{i.cmt}}</td>
+                                <td><span class="fa fa-star checked" style=" color: orange;"></span>{{i.rate}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $("#rating-table tr:odd").addClass("table-light");
+                            $("#rating-table tr:even").addClass("table-dark");
+                        });
+                    </script>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% include 'footerbar.html' %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="{% static 'js/bootstrap.js' %}">
+    </script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+</body>
+<style>
+    .img-circle {
+        display: inline-block;
+        position: relative;
+        width: 175px;
+        height: 175px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid yellow;
+    }
+
+    .img-circle img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .img-circle:hover img {
+        transform: scale(1.2);
+    }
+
+    body {
+        background-image: url(../static/images/login.jpg);
+        margin-top: 20px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* btn */
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+    /* end btn */
+
+
+    @keyframes mygradient {
+        0% {
+            background-position: 0%
+        }
+
+        100% {
+            background-position: 100%
+        }
+    }
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        50% {
+            transform: rotate(90deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    #wave {
+        height: 100%;
+        overflow: hidden
+    }
+
+    #wave:before {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(0, 0, 0, .375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s ease-in-out infinite;
+        animation-delay: -3s
+    }
+
+    #wave:after {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(0, 0, 0, .375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s linear infinite
+    }
+
+
+
+    h1 {
+        color: #484848;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: monospace;
+        letter-spacing: 7px;
+        cursor: pointer
+    }
+
+    h1 span {
+        transition: .5s linear
+    }
+
+    h1:hover span:nth-child(1) {
+        margin-right: 5px
+    }
+
+    h1:hover span:nth-child(1):after {
+        content: "'";
+    }
+
+    h1:hover span:nth-child(2) {
+        margin-left: 30px
+    }
+
+    h1:hover span {
+        color: #fff;
+        text-shadow: 0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 40px #fff;
+    }
+
+    /*made with ❤, by qpi65*/
+    .container {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+    }
+
+    .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .title h1 {
+        font-size: 25vmin;
+        font-weight: 900;
+        font-family: "Montserrat", sans-serif;
+        color: black;
+    }
+
+    .ghost {
+        width: 8vmin;
+        height: 12vmin;
+        background-color: var(--white);
+        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
+        background-image: radial-gradient(ellipse at 35% 40%, #000 8%, transparent 0%),
+            radial-gradient(ellipse at 65% 40%, #000 8%, transparent 0%),
+            radial-gradient(ellipse at 50% 60%, #000 8%, transparent 0%);
+        border-radius: 100% / 70% 70% 0% 0%;
+        transform: translateX(100em) rotateZ(-90deg);
+        position: relative;
+        opacity: 0.9;
+        mix-blend-mode: exclusion;
+        animation: ghostMove 4s ease-out infinite;
+    }
+
+    @keyframes ghostMove {
+        0% {
+            transform: translateX(30em) rotateZ(-90deg);
+        }
+
+        100% {
+            transform: translateX(-35em) rotateZ(-90deg);
+        }
+    }
+
+    .ghost div {
+        position: absolute;
+        width: 20%;
+        background-color: var(--white);
+        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
+    }
+
+    .ghost div:nth-of-type(1) {
+        height: 7vmin;
+        left: 0;
+        bottom: -6vmin;
+        border-radius: 100% / 0% 0% 50% 50%;
+    }
+
+    .ghost div:nth-of-type(2),
+    .ghost div:nth-of-type(4) {
+        height: 4vmin;
+        left: 20%;
+        bottom: -3vmin;
+        border-radius: 100% / 50% 50% 0% 0%;
+        background-color: transparent;
+    }
+
+    .ghost div:nth-of-type(3) {
+        height: 4vmin;
+        left: 40%;
+        bottom: -3.95vmin;
+        border-radius: 100% / 0% 0% 60% 60%;
+        background-color: var(--white);
+    }
+
+    .ghost div:nth-of-type(4) {
+        left: 60%;
+    }
+
+    .ghost div:nth-of-type(5) {
+        height: 3vmin;
+        left: 80%;
+        bottom: -2.9vmin;
+        border-radius: 100% / 0% 0% 70% 70%;
+        background-color: var(--white);
+    }
+
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa !important
+    }
+
+    .table-product td {
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299 !important;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+    .rate:not(:checked)>input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked)>label {
+        float: right;
+        width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked)>label:before {
+        content: '★ ';
+    }
+
+    .rate>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked)>label:hover,
+    .rate:not(:checked)>label:hover~label {
+        color: #deb217;
+    }
+
+    .rate>input:checked+label:hover,
+    .rate>input:checked+label:hover~label,
+    .rate>input:checked~label:hover,
+    .rate>input:checked~label:hover~label,
+    .rate>label:hover~input:checked~label {
+        color: #c59b08;
+    }
+
+    /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa !important
+    }
+
+    .table-product td {
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299 !important;
+    }
+</style>
+
+</html>

@@ -1,0 +1,860 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{msg}}</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="">
+  <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body>
+  <svg width="380px" height="500px" viewBox="0 0 837 1045" version="1.1" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+      <path d="M353,9 L626.664028,170 L626.664028,487 L353,642 L79.3359724,487 L79.3359724,170 L353,9 Z" id="Polygon-1"
+        stroke="#007FB2" stroke-width="6" sketch:type="MSShapeGroup"></path>
+      <path d="M78.5,529 L147,569.186414 L147,648.311216 L78.5,687 L10,648.311216 L10,569.186414 L78.5,529 Z"
+        id="Polygon-2" stroke="#EF4A5B" stroke-width="6" sketch:type="MSShapeGroup"></path>
+      <path d="M773,186 L827,217.538705 L827,279.636651 L773,310 L719,279.636651 L719,217.538705 L773,186 Z"
+        id="Polygon-3" stroke="#795D9C" stroke-width="6" sketch:type="MSShapeGroup"></path>
+      <path d="M639,529 L773,607.846761 L773,763.091627 L639,839 L505,763.091627 L505,607.846761 L639,529 Z"
+        id="Polygon-4" stroke="#F2773F" stroke-width="6" sketch:type="MSShapeGroup"></path>
+      <path d="M281,801 L383,861.025276 L383,979.21169 L281,1037 L179,979.21169 L179,861.025276 L281,801 Z"
+        id="Polygon-5" stroke="#36B455" stroke-width="6" sketch:type="MSShapeGroup"></path>
+    </g>
+  </svg>
+
+  <div class="message-box">
+    <h1 style="font-family: Lucida Console, Courier New, monospace;">Uh-Oh!</h1>
+    <p class="text-warning" style="font-family: Lucida Console, Courier New, monospace; color: tomato;"> Something Went Wrong</p>
+    <p class="p" style="font-family: Lucida Console, Courier New, monospace;">{{msg}}</p>
+    <div class="buttons-con">
+      <div class="action-link-wrap">
+        <a onclick="history.back(-1)" class="link-button link-back-button"
+          style="font-family: Lucida Console, Courier New, monospace;">Go Back</a>
+        <a href="{% url 'index' %}" class="link-button" style="font-family: Lucida Console, Courier New, monospace;">Go
+          to Home Page</a>
+      </div>
+    </div>
+  </div>
+  <div class="astronaut">
+    <img
+      src="https://images.vexels.com/media/users/3/152639/isolated/preview/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon-by-vexels.png"
+      alt="" class="src">
+  </div>
+</body>
+<style>
+  body {
+    background: linear-gradient(90deg, rgb(27, 3, 64), rgb(67, 13, 31), rgb(0, 0, 0), rgb(3, 14, 77));
+    animation: mygradient 1s linear infinite alternate;
+    height: 100vh;
+    width: 100vw;
+    background-size: 600% 100%;
+    overflow: hidden;
+  }
+
+  .p {
+    color: linear-gradient(90deg, rgb(27, 3, 64), rgb(67, 13, 31), rgb(0, 0, 0), rgb(3, 14, 77));
+    animation: mygradient 1s linear infinite alternate;
+  }
+
+  .wrapper {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: scale(1.5, 1.5) translate(-50%, -50%);
+  }
+
+  .floor {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 350px;
+    height: 5px;
+    background: #673C63;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 2px 5px #111;
+    z-index: 2;
+  }
+
+  .candles {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 250px;
+    height: 150px;
+    transform: translate(-50%, -100%);
+    z-index: 1;
+  }
+
+  .candle1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 35px;
+    height: 100px;
+    background: #fff;
+    border: 3px solid #673C63;
+    border-bottom: 0px;
+    border-radius: 3px;
+    transform-origin: center right;
+    transform: translate(60%, -25%);
+    box-shadow: -2px 0px 0px #95c6f2 inset;
+    animation: expand-body 3s infinite linear;
+  }
+
+  .candle1__stick,
+  .candle2__stick {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 3px;
+    height: 15px;
+    background: #673C63;
+    border-radius: 8px;
+    transform: translate(-50%, -100%);
+  }
+
+  .candle2__stick {
+    height: 12px;
+    transform-origin: bottom center;
+    animation: stick-animation 3s infinite linear;
+  }
+
+  .candle1__eyes,
+  .candle2__eyes {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 35px;
+    height: 30px;
+    transform: translate(-50%, 0%);
+  }
+
+  .candle1__eyes-one {
+    position: absolute;
+    left: 30%;
+    top: 20%;
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    background: #673C63;
+    transform: translate(-70%, 0%);
+    animation: blink-eyes 3s infinite linear;
+  }
+
+  .candle1__eyes-two {
+    position: absolute;
+    left: 70%;
+    top: 20%;
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    background: #673C63;
+    transform: translate(-70%, 0%);
+    animation: blink-eyes 3s infinite linear;
+  }
+
+  .candle1__mouth {
+    position: absolute;
+    left: 40%;
+    top: 20%;
+    width: 0px;
+    height: 0px;
+    border-radius: 20px;
+    background: #673C63;
+    transform: translate(-50%, -50%);
+    animation: uff 3s infinite linear;
+  }
+
+  .candle__smoke-one {
+    position: absolute;
+    left: 30%;
+    top: 50%;
+    width: 30px;
+    height: 3px;
+    background: grey;
+    transform: translate(-50%, -50%);
+    animation: move-left 3s infinite linear;
+  }
+
+  .candle__smoke-two {
+    position: absolute;
+    left: 30%;
+    top: 40%;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: grey;
+    transform: translate(-50%, -50%);
+    animation: move-top 3s infinite linear;
+  }
+
+  .candle2 {
+    position: absolute;
+    left: 20%;
+    top: 65%;
+    width: 42px;
+    height: 60px;
+    background: #fff;
+    border: 3px solid #673C63;
+    border-bottom: 0px;
+    border-radius: 3px;
+    transform: translate(60%, -15%);
+    transform-origin: center right;
+    box-shadow: -2px 0px 0px #95c6f2 inset;
+    animation: shake-left 3s infinite linear;
+  }
+
+  .candle2__eyes-one {
+    position: absolute;
+    left: 30%;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    border: 0px solid #673C63;
+    border-radius: 100%;
+    background: #673C63;
+    transform: translate(-80%, 0%);
+    animation: changeto-lower 3s infinite linear;
+  }
+
+  .candle2__eyes-two {
+    position: absolute;
+    left: 70%;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    display: inline-block;
+    border: 0px solid #673C63;
+    border-radius: 100%;
+    background: #673C63;
+    transform: translate(-80%, 0%);
+    animation: changeto-greater 3s infinite linear;
+  }
+
+  .light__wave {
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    z-index: 0;
+    transform: translate(-25%, -50%) scale(2.5, 2.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: expand-light 3s infinite linear;
+  }
+
+  .candle2__fire {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    display: block;
+    width: 16px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: #FF9800;
+    transform: translate(-50%, -50%);
+    animation: dance-fire 3s infinite linear;
+  }
+
+  @keyframes blink-eyes {
+
+    0%,
+    35% {
+      opacity: 1;
+      transform: translate(-70%, 0%);
+    }
+
+    36%,
+    39% {
+      opacity: 0;
+      transform: translate(-70%, 0%);
+    }
+
+    40% {
+      opacity: 1;
+      transform: translate(-70%, 0%);
+    }
+
+    50%,
+    65% {
+      transform: translate(-140%, 0%);
+    }
+
+    66% {
+      transform: translate(-70%, 0%);
+    }
+  }
+
+  @keyframes expand-body {
+
+    0%,
+    40% {
+      transform: scale(1, 1) translate(60%, -25%);
+    }
+
+    45%,
+    55% {
+      transform: scale(1.1, 1.1) translate(60%, -28%);
+    }
+
+    60% {
+      transform: scale(0.89, 0.89) translate(60%, -25%);
+    }
+
+    65% {
+      transform: scale(1, 1) translate(60%, -25%);
+    }
+
+    70% {
+      transform: scale(0.95, 0.95) translate(60%, -25%);
+    }
+
+    75% {
+      transform: scale(1, 1) translate(60%, -25%);
+    }
+  }
+
+  @keyframes uff {
+
+    0%,
+    40% {
+      width: 0px;
+      height: 0px;
+    }
+
+    50%,
+    54% {
+      width: 15px;
+      height: 15px;
+      left: 30%;
+    }
+
+    59% {
+      width: 5px;
+      height: 5px;
+      left: 20%;
+    }
+
+    62% {
+      width: 2px;
+      height: 2px;
+      left: 20%;
+    }
+
+    67% {
+      width: 0px;
+      height: 0px;
+      left: 30%;
+    }
+  }
+
+  @keyframes change-background {
+
+    0%,
+    59%,
+    98%,
+    100% {
+      background: #2F3242;
+    }
+
+    61%,
+    97% {
+      background: #000;
+    }
+  }
+
+  @keyframes move-left {
+
+    0%,
+    59%,
+    100% {
+      width: 0px;
+      left: 40%;
+    }
+
+    60% {
+      width: 30px;
+      left: 30%;
+    }
+
+    68% {
+      width: 0px;
+      left: 20%;
+    }
+  }
+
+  @keyframes move-top {
+
+    0%,
+    64%,
+    100% {
+      width: 0px;
+      height: 0px;
+      top: 0%;
+    }
+
+    65% {
+      width: 10px;
+      height: 10px;
+      top: 40%;
+      left: 40%;
+    }
+
+    80% {
+      width: 0px;
+      height: 0px;
+      top: 20%;
+    }
+  }
+
+  @keyframes shake-left {
+
+    0%,
+    40% {
+      left: 20%;
+      transform: translate(60%, -15%);
+    }
+
+    50%,
+    54% {
+      left: 20%;
+      transform: translate(60%, -15%);
+    }
+
+    59% {
+      left: 20%;
+      transform: translate(60%, -15%);
+    }
+
+    62% {
+      left: 18%;
+      transform: translate(60%, -15%);
+    }
+
+    65% {
+      left: 21%;
+      transform: translate(60%, -15%);
+    }
+
+    67% {
+      left: 20%;
+      transform: translate(60%, -15%);
+    }
+
+    75% {
+      left: 20%;
+      transform: scale(1.15, 0.85) translate(60%, -15%);
+      background: #fff;
+      border-color: #673C63;
+    }
+
+    91% {
+      left: 20%;
+      transform: scale(1.18, 0.82) translate(60%, -10%);
+      background: #F44336;
+      border-color: #F44336;
+      box-shadow: -2px 0px 0px #F44336 inset;
+    }
+
+    92% {
+      left: 20%;
+      transform: scale(0.85, 1.15) translate(60%, -15%);
+    }
+
+    95% {
+      left: 20%;
+      transform: scale(1.05, 0.95) translate(60%, -15%);
+    }
+
+    97% {
+      left: 20%;
+      transform: scale(1, 1) translate(60%, -15%);
+    }
+  }
+
+  @keyframes stick-animation {
+
+    0%,
+    40% {
+      left: 50%;
+      top: 0%;
+      transform: translate(-50%, -100%);
+    }
+
+    50%,
+    54% {
+      left: 50%;
+      top: 0%;
+      transform: translate(-50%, -100%);
+    }
+
+    59% {
+      left: 50%;
+      top: 0%;
+      transform: translate(-50%, -100%);
+    }
+
+    62% {
+      left: 50%;
+      top: 0%;
+      transform: rotateZ(-15deg) translate(-50%, -100%);
+    }
+
+    65% {
+      left: 50%;
+      top: 0%;
+      transform: rotateZ(15deg) translate(-50%, -100%);
+    }
+
+    70% {
+      left: 50%;
+      top: 0%;
+      transform: rotateZ(-5deg) translate(-50%, -100%);
+    }
+
+    72% {
+      left: 50%;
+      top: 0%;
+      transform: rotateZ(5deg) translate(-50%, -100%);
+    }
+
+    74%,
+    84% {
+      left: 50%;
+      top: 0%;
+      transform: rotateZ(0deg) translate(-50%, -100%);
+    }
+
+    85% {
+      transform: rotateZ(180deg) translate(0%, 120%);
+    }
+
+    92% {
+      left: 50%;
+      top: 0%;
+      transform: translate(-50%, -100%);
+    }
+  }
+
+  @keyframes expand-light {
+
+    10%,
+    29%,
+    59%,
+    89% {
+      transform: translate(-25%, -50%) scale(0, 0);
+      border: 2px solid rgba(255, 255, 255, 0);
+    }
+
+    90%,
+    20%,
+    50% {
+      transform: translate(-25%, -50%) scale(1, 1);
+    }
+
+    95%,
+    96%,
+    26%,
+    27%,
+    56%,
+    57% {
+      transform: translate(-25%, -50%) scale(2, 2);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    0%,
+    28%,
+    58%,
+    100% {
+      transform: translate(-25%, -50%) scale(2.5, 2.5);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  @keyframes dance-fire {
+
+    59%,
+    89% {
+      left: 40%;
+      width: 0px;
+      height: 0px;
+    }
+
+    90%,
+    0%,
+    7%,
+    15%,
+    23%,
+    31%,
+    39%,
+    47%,
+    55% {
+      left: 40.8%;
+      width: 16px;
+      height: 20px;
+      background: #FFC107;
+    }
+
+    94%,
+    3%,
+    11%,
+    19%,
+    27%,
+    35%,
+    43%,
+    51%,
+    58% {
+      left: 41.2%;
+      width: 16px;
+      height: 20px;
+      background: #FF9800;
+    }
+  }
+
+  @keyframes changeto-lower {
+
+    0%,
+    70%,
+    90% {
+      padding: 0px;
+      display: inline-block;
+      border-radius: 100%;
+      background: #673C63;
+      border-width: 0 0 0 0;
+      border: 0px solid #673C63;
+      transform: translate(-90%, 0%);
+    }
+
+    71%,
+    89% {
+      background: none;
+      border: solid #673C63;
+      border-radius: 0px;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 1px;
+      float: left;
+      transform-origin: bottom left;
+      transform: rotate(-45deg) translate(-50%, -65%);
+      -webkit-transform: rotate(-45deg) translate(-50%, -65%);
+    }
+  }
+
+  @keyframes changeto-greater {
+
+    0%,
+    70%,
+    90% {
+      top: 50%;
+      padding: 0px;
+      display: inline-block;
+      border-radius: 100%;
+      background: #673C63;
+      border-width: 0 0 0 0;
+      border: 0px solid #673C63;
+      transform: translate(-80%, 0%);
+    }
+
+    71%,
+    89% {
+      top: 30%;
+      background: none;
+      border: solid #673C63;
+      border-radius: 0px;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 1px;
+      float: left;
+      transform-origin: bottom left;
+      transform: rotate(135deg) translate(-80%, 20%);
+      -webkit-transform: rotate(135deg) translate(-80%, 20%);
+    }
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -400px;
+  }
+
+  .message-box {
+    height: 200px;
+    width: 380px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: 50px;
+    color: #FFF;
+    font-family: Roboto;
+    font-weight: 300;
+  }
+
+  .message-box h1 {
+    font-size: 60px;
+    line-height: 46px;
+    margin-bottom: 40px;
+  }
+
+  .buttons-con .action-link-wrap {
+    margin-top: 40px;
+  }
+
+  .buttons-con .action-link-wrap a {
+    background: #68c950;
+    padding: 8px 25px;
+    border-radius: 4px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px
+  }
+
+  .buttons-con .action-link-wrap a:hover {
+    background: #5A5C6C;
+    color: #fff;
+  }
+
+  #Polygon-1,
+  #Polygon-2,
+  #Polygon-3,
+  #Polygon-4,
+  #Polygon-4,
+  #Polygon-5 {
+    animation: float 1s infinite ease-in-out alternate;
+  }
+
+  #Polygon-2 {
+    animation-delay: .2s;
+  }
+
+  #Polygon-3 {
+    animation-delay: .4s;
+  }
+
+  #Polygon-4 {
+    animation-delay: .6s;
+  }
+
+  #Polygon-5 {
+    animation-delay: .8s;
+  }
+
+  @keyframes float {
+    100% {
+      transform: translateY(20px);
+    }
+  }
+
+  @media (max-width: 450px) {
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -250px;
+      margin-left: -190px;
+    }
+
+    .message-box {
+      top: 50%;
+      left: 50%;
+      margin-top: -100px;
+      margin-left: -190px;
+      text-align: center;
+    }
+  }
+
+
+  .text {
+    position: absolute;
+    top: 10%;
+    color: #fff;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    right: 0;
+    animation: starTwinkle 3s infinite linear;
+  }
+
+  .astronaut img {
+    width: 100px;
+    position: absolute;
+    top: 55%;
+    animation: astronautFly 6s infinite linear;
+  }
+
+  @keyframes astronautFly {
+    0% {
+      left: -100px;
+    }
+
+    25% {
+      top: 50%;
+      transform: rotate(30deg);
+    }
+
+    50% {
+      transform: rotate(45deg);
+      top: 55%;
+    }
+
+    75% {
+      top: 60%;
+      transform: rotate(30deg);
+    }
+
+    100% {
+      left: 110%;
+      transform: rotate(45deg);
+    }
+  }
+
+  @keyframes starTwinkle {
+    0% {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    25% {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    50% {
+      background: rgba(255, 255, 255, 1);
+    }
+
+    75% {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    100% {
+      background: rgba(255, 255, 255, 0.4);
+    }
+  }
+</style>
+
+</html>>

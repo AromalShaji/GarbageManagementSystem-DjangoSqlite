@@ -1,0 +1,595 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+Profile
+{% endblock %}
+
+{% block content%}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #515050;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+<div class="hero_area container-fluid" style="background-image: url(../static/images/9.jpg); background-size: contain;">
+
+    <section>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container navbar-dark bg-dark"
+                    style="opacity: 0.9; border-radius: 30px; width: 100%; align-items: center;">
+                    <a class="navbar-brand">
+                        <span class="glow">
+                            &nbsp; Eco-Cycle
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse container-fluid col-sm-18" id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto container-fluid col-sm-20">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'index' %}">Home<span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"> {{dis}}</a>
+                            </li>
+                            {% if 'company' in dis.role %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-hidden="true" href="" data-toggle="collapse"
+                                    data-target="#jobofferlist"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z" />
+                                    </svg> More
+                                </a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                        <div class="user_option">
+                            {% if 'id' in request.session %}
+                            <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- end header section -->
+    </section>
+
+    <!-- job list  start-->
+    <ul class="list-group collapse align-items-end" id="jobofferlist" style="width: 1100px; align-items: center;">
+        <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                href="{% url 'regjobdriverpage' %}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z" />
+                </svg> PROVIDE JOB OFFER FOR DRIVER</a>
+        </li>
+        <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                href="{% url 'regjobemployeepage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z" />
+                </svg> PROVIDE JOB OFFER FOR EMPLOYEE</a>
+        </li>
+        <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                href="{% url 'adddumbsterpage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                    <path fill-rule="evenodd"
+                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                </svg> PROVIDE DUMPSTER</a>
+        </li>
+        <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                href="{% url 'add_employeepage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                    <path
+                        d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    <path
+                        d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                </svg> ADD EMPLOYEE</a>
+        </li>
+    </ul>
+    <!-- job list end -->
+
+    <!-- company section -->
+    <section class="offer_section layout_padding-bottom" id="offer_section layout_padding-bottom">
+        <div class="offer_container">
+            <div class="container">
+                <div class="heading_container heading_center">
+                    <h2>
+                        Dumpster Manager
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="container-xl px-4 mt-4">
+            <!-- Account page navigation-->
+            <nav class="nav nav-borders bg-dark " style="border-radius: 20px;">
+                <a class="nav-link text-warning font-weight-bold ms-0" href="{% url 'profile' %}">Company Details</a>
+                <a class="nav-link text-warning font-weight-bold ms-0" href="{% url 'profile_addvehicle' %}">Add
+                    Vehicle</a>
+                <a class="nav-link text-warning font-weight-bold ms-0" href="{% url 'profile_bookingdetails' %}">Booking
+                    Details</a>
+                <a class="nav-link  text-warning font-weight-bold ms-0" href="{% url 'profile_jobdetails' %}">Job
+                    Details</a>
+                <a class="nav-link text-warning font-weight-bold ms-0" href="{% url 'profile_jobapplications' %}">Job
+                    Applications</a>
+                <a class="nav-link text-warning font-weight-bold ms-0" href="{% url 'employee_manager' %}">Employee
+                    Manager</a>
+                <a class="nav-link active text-warning font-weight-bold ms-0"
+                    href="{% url 'profile_dumbstermanager' %}">Dumpster
+                    Manager</a>
+            </nav>
+            <!-- profile -->
+            <hr class="mt-0 mb-4">
+        </div>
+        <!-- dumbster details -->
+        <div class="container-xl px-4 mt-4  bg-dark" id="job_details" style="background-color: #2f3031; opacity: 0.9; ">
+            <!-- Account page navigation-->
+            <nav class="nav nav-borders">
+                <a class="nav-link text-warning active ms-0" href="" target="__blank">Dumpster Details</a>
+            </nav>
+            <hr class="mt-0 mb-4">
+            <!-- content -->
+            {% for i in dumbsterdetails %}
+            <div class="row">
+                <center style="margin-left: 640px; font-size: large; margin-bottom: 20px;">
+                    {% if i.number >= '3' %}
+                    <span class="badge"
+                        style="background-color: rgb(11, 140, 39); color: white; text-align: center; border-radius: 10px; height: 30px;">Only
+                        Number of Dumbster: {{i.number}}
+                    </span><br>
+                    {% else %}
+                    <span class="badge"
+                        style="background-color: rgb(129, 11, 11); color: white; text-align: center; border-radius: 10px;">Only
+                        Number of Dumbster: {{i.number}}</span><br>
+                    {% endif %}
+                </center>
+                <br>
+            </div>
+            <div class="container-xl px-4 mt-4">
+                <hr class="mt-0 mb-4">
+                <!-- Customer details -->
+                <div class="row" style="margin-left: 30px;">
+                    <div class="col-xl-8">
+                        <!-- Account details card-->
+                        <div class="card mb-4" style="width: 1302px;">
+                            <div class="card-body bg-dark" style="border-radius: 0px; width: 1300px;">
+
+                                <div style="margin-left: 540px; margin-bottom: 40px;">
+                                    {% if i.status == 0 %}
+                                    <form method="post" action="{%url 'dumbster_availablity' %}"
+                                        style="margin-left: 20px;">
+                                        {%csrf_token%}
+                                        <small>
+                                            <button type="submit" href="{%url 'dumbster_availablity' %}"
+                                                class="glow-on-hover">Make
+                                                available
+                                            </button>
+                                        </small>
+                                    </form>
+                                    {% else %}
+                                    <form method="post" action="{%url 'dumbster_availablity' %}"
+                                        style="margin-left: 20px;">
+                                        {%csrf_token%}
+                                        <small>
+                                            <button type="submit" href="{%url 'dumbster_availablity' %}"
+                                                class="glow-on-hover">Make
+                                                unavailable
+                                            </button>
+                                        </small>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                <form method="post" action="{% url 'dumbster_update' %}">
+                                    {% csrf_token %}
+                                    <div class="row gx-3 mb-3">
+                                        <!-- Form Group (first name)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1 text-light" for="inputFirstName">Number of Dumbster
+                                                :</label>
+                                            <input type="text" name="dumbster_number" class="form-control"
+                                                placeholder="Dumbster Count" value="{{i.number}}" />
+                                        </div>
+                                        <!-- Form Group (last name)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1 text-light" for="inputLastName">Rate :</label>
+                                            <input type="text" name="dumbster_rate" class="form-control"
+                                                placeholder="Dumbster Count" value="{{i.rate}}" />
+                                        </div>
+                                    </div>
+                                    <!-- Form Row        -->
+                                    <div class="row gx-3 mb-3">
+                                        <!-- Form Group (organization name)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1 text-light"
+                                                for="inputEmailAddress">Dimension:</label>
+                                            <input type="text" name="dumbster_dimension" class="form-control"
+                                                placeholder="Dumbster Count" value="{{i.dimension}}" />
+                                        </div>
+                                        <!-- Form Group (location)-->
+                                        <div class="col-md-6">
+                                            <label class="small mb-1 text-light" for="inputLocation">Sizes:</label>
+                                            <input type="text" name="dumbster_size" class="form-control"
+                                                placeholder="Dumbster Count" value="{{i.size}}" />
+                                            <small class="text-danger"><b>Enter the values separated by
+                                                    Commas.</b></small>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small>
+                                            <button class="glow-on-hover" type="submit"
+                                                href="{% url 'customerprofileupdate' %}"
+                                                style="margin-left: 1100px;">Update</button>
+                                        </small>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <span></span><br><br><br><br>
+        </div>
+        <!-- dumbster rented details  -->
+        <div class="container-xl px-4 mt-4  bg-dark" id="job_details" style="background-color: #2f3031; opacity: 0.9; ">
+            <!-- Account page navigation-->
+            <nav class="nav nav-borders">
+                <a class="nav-link text-warning active ms-0" href="" target="__blank">Rented Customer Deatils</a>
+            </nav>
+            <hr class="mt-0 mb-4">
+            <div class="card-body">
+                <!-- content -->
+                <section class="offer_section layout_padding-bottom" id="offer_section layout_padding-bottom">
+                    <div class="offer_container">
+                        <div class="container">
+                            <!-- driver -->
+                            <div class="row grid">
+                                {% for i in dumbster_booked%}
+                                <div class="col-sm-8 col-lg-6 ">
+                                    <div class="box" style="width: fit-content;">
+                                        <div class="detail-box">
+                                            {% if i.out_for_service == 1 and i.arrived_near == 0 and i.completed == 0 %}
+                                            <span class="badge"
+                                                style="background-color: rgb(140, 54, 11); color: white; text-align: center; border-radius: 10px; height: 30px; width: 400px;">
+                                                STATUS: OUT FOR SERVICE</span><br>
+                                            {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 0%}
+                                            <span class="badge"
+                                                style="background-color: rgb(248, 252, 8); color: rgb(0, 0, 0); text-align: center; border-radius: 10px; height: 30px; width: 400px;">
+                                                STATUS: ARRIVED NEAR</span><br>
+                                            {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 1%}
+                                            <span class="badge"
+                                                style="background-color: rgb(58, 160, 23); color: rgb(230, 0, 0); text-align: center; border-radius: 10px; height: 30px; width: 400px;">
+                                                STATUS: DUMBSTER DROPED</span><br>
+                                            {% elif i.status == 0 %}
+                                            <span class="badge"
+                                                style="background-color: rgb(74, 255, 13); color: rgb(0, 0, 0); text-align: center; border-radius: 10px; height: 30px; width: 400px;">
+                                                STATUS: COMPLETED</span><br>
+                                            {% else %}
+                                            <span class="badge"
+                                                style="background-color: rgb(255, 102, 13); color: rgb(0, 0, 0); text-align: center; border-radius: 10px; height: 30px; width: 400px;">
+                                                STATUS: PENDING</span><br>
+                                            {% endif %}
+                                            <br>
+                                            <table style="width: 400px;">
+                                                <tr>
+                                                    <th>Name :</th>
+                                                    <td>{{i.userid}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Number of Dumbster :</th>
+                                                    <td>{{i.numberofdumbster}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Number of Days :</th>
+                                                    <td>{{i.numberofday}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Size :</th>
+                                                    <td>{{i.size}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Date :</th>
+                                                    <td>{{i.date}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Rate :</th>
+                                                    <td>{{i.rate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Location :</th>
+                                                    <td>{{i.location}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Address :</th>
+                                                    <td>{{i.address}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Pincode :</th>
+                                                    <td>{{i.pincode}}</td>
+                                                </tr>
+                                                {% if i.feedback %}
+                                                <tr style="background-color: #436a25; border-radius: 20px;">
+                                                    <th>Feedback :</th>
+                                                    <td>
+                                                        {{i.feedback}}</td>
+                                                </tr>
+                                                {%endif%}
+                                            </table>
+                                            <small>
+                                            </small><br>
+                                            <br>
+                                            <!-- <form method="post" action="">
+                                                {%csrf_token%}
+                                                <small>
+                                                    <button type="submit" href="" class="glow-on-hover"
+                                                        style="background-color: #ff0000;">Cancel
+                                                    </button>
+                                                </small>
+                                            </form> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- end Tournament section -->
+
+{% include 'footerbar.html' %}
+
+<!-- list view -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- end list -->
+
+<!-- jQery -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script>
+<!-- End Google Map -->
+
+<style>
+    table,
+    th,
+    td {
+
+        border-collapse: collapse;
+        border-bottom: 2px solid rgb(103, 98, 98);
+    }
+
+    th {
+        width: 250px;
+    }
+
+    td {
+        text-align: right;
+    }
+
+    body {
+        background-image: url(../static/images/login.jpg);
+        height: 100%;
+        max-width: 100%;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900");
+    @import url("https://cdn.linearicons.com/free/1.0.0/icon-font.min.css");
+
+
+
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}

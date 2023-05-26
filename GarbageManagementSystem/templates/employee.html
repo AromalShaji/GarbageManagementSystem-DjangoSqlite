@@ -1,0 +1,1464 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title%}
+Home
+{% endblock %}
+
+{% block content%}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #515050;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+<!-- <div id="wave"></div> -->
+<div class="hero_area">
+    <section>
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container navbar-dark bg-dark col-md-20"
+                    style="opacity: 0.9; border-radius: 30px; width: 100%; align-items: center;">
+                    <a class="navbar-brand">
+                        <span class="glow">
+                            &nbsp; Eco-Cycle
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse container-fluid col-sm-18" id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto container-fluid col-sm-20" style="align-items: center;">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'index' %}">Home<span
+                                        class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">{{dis.userid}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="">{{dis.companyid}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-hidden="true" href="" data-toggle="collapse"
+                                    data-target="#jobofferlist"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                        <path
+                                            d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                        <path
+                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                    </svg>
+                                    APPLY FOR LEAVE
+                                </a>
+                            </li>
+                            {% if 'driver' in dis.role or 'worker' in dis.role%}
+                            {% if cnt > 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link " href="{% url 'tracking_page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-truck" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                    </svg>
+                                    Track
+                                </a>
+                            </li>
+                            {%else%}
+                            <li class="nav-item">
+                            </li>
+                            {% endif %}
+                            {% endif %}
+                        </ul>
+
+                        <div class="user_option">
+                            {% if 'id' in request.session %}
+                            <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- end header section -->
+    </section>
+    <ul class="list-group collapse align-items-end " id="jobofferlist" style="width: 1200px; align-items: center;">
+        <li class="list-group-item text-light bg-dark" style="color: #002bff; width: 480px;">
+            <div class="md-form md-outline input-with-post-icon datepicker" id="customDays">
+                <form action="{% url 'employee_leave' %}" method="post">
+                    {% csrf_token %}
+                    <label for="start_date">Start date:</label>
+                    <label for="end_date" style="margin-left: 140px;">End date:</label>
+                    <div style="display: flex; justify-content: space-between;">
+                        <input type="date" name="start_date" id="start_date" placeholder="Select date" id="start_date"
+                            class="form-control" style="border-radius: 10px;" required>
+                        <input type="date" name="end_date" placeholder="Select date" id="end_date" class="form-control"
+                            style="border-radius: 10px;" required>
+                    </div>
+                    <input type="text" name="reason" placeholder="Readson" id="Customization1" class="form-control"
+                        style="margin-top: 10px; border-radius: 10px;">
+                    <button type="submit" href="{% url 'employee_leave' %}"
+                        style="background-color: yellow; border-radius: 50px; padding: 10px 20px; border: none; color: black; font-weight: bold; margin-top: 10px;">Submit</button>
+                </form>
+            </div>
+        </li>
+    </ul>
+    <marquee>
+        {% for i in leave_status %}
+        <b class="text-warning">Applied for leave on {{i.start_date}} to {{i.end_date}}. </b>
+        {% endfor %}
+        {% for i in leave_status %}
+        {% if i.approved == 1 %}
+        <b class="text-success">Leave application on date {{i.start_date}} to {{i.end_date}} approved. </b>
+        {% elif i.rejected == 1%}
+        <b class="text-danger">Leave application on date {{i.start_date}} to {{i.end_date}} rejected. </b>
+        {% endif %}
+        {% endfor %}
+    </marquee>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!-- Driver section -->
+    {% if dis.role == 'driver' %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" style="margin-top: 80px;">
+        <div class="row">
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Total Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>{{totaljobcount}}</span></h2>
+                        <p class="m-b-0">Approved leave :<span class="f-right">{{ls_cnt}}</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-trash f-left"></i><span>{{ser_len}}</span></h2>
+                        <p class="m-b-0">Waste Collection<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-yellow order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-truck f-left"></i><span>{{dum_len}}</span></h2>
+                        <p class="m-b-0">Dumpster Order<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-pink order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Completed</h6>
+                        <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>{{ttl_cmp_len}}</span></h2>
+                        <p class="m-b-0">Total order<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!--order card -->
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+        <h2 class="text-light">
+            <center>Todays Order</center>
+        </h2>
+        {% for i in job %}
+        <div class="card">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                    <h5>WASTE COLLECTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                    {% if i.recollect_dumbster == 1 %}
+                    <h5>RECOLLECT THE DUMBSTER <span class="text-primary font-weight-bold"></span></h5>
+                    {% else %}
+                    <h5>DUMBSTER RENTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column text-sm-right">
+                    <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                    <p class="mb-0">Customer <span class="font-weight-bold">
+                            {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                            {{i.service_scheduled}}
+                            {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                            {{i.dumbster_scheduled}}
+                            {% endif %}
+                        </span></p>
+                    <p class="mb-0">Phone <span class="font-weight-bold">{{i.phone}}</span></p>
+                    <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                    <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                    <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                </div>
+            </div> <!-- Add class 'active' to progress -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <ul id="progressbar" class="text-center">
+                        <li class="active step0"></li>
+                        {% if i.out_for_service == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.arrived_near == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.completed == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between top">
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Order<br>Scheduled</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Out for<br>Service</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Employees Arrive<br>at nearest Location</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Service<br>Arrived</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+                data-toggle="modal" data-target="#exampleModal">Open map</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+        <h2 class="text-light">
+            <center>Upcoming Services</center>
+        </h2>
+        {% for i in jobtoday %}
+        <div class="card">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                    <h5>WASTE COLLECTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                    {% if i.recollect_dumbster == 1 %}
+                    <h5>RECOLLECT THE DUMPSTER <span class="text-primary font-weight-bold"></span></h5>
+                    {% else %}
+                    <h5>DUMPSTER RENTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column text-sm-right">
+                    <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                    <p class="mb-0">Customer <span class="font-weight-bold">
+                            {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                            {{i.service_scheduled}}
+                            {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                            {{i.dumbster_scheduled}}
+                            {% endif %}
+                        </span></p>
+                    <p class="mb-0">Phone <span class="font-weight-bold">{{i.phone}}</span></p>
+                    <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                    <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                    <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                </div>
+            </div> <!-- Add class 'active' to progress -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <ul id="progressbar" class="text-center">
+                        <li class="active step0"></li>
+                        {% if i.out_for_service == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.arrived_near == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn"
+                                    href="{% url 'update_arrived_near' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn"
+                                    href="{% url 'update_arrived_near' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.completed == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between top">
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Order<br>Scheduled</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Out for<br>Service</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Employees Arrive<br>at nearest Location</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Service<br>Arrived</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+                data-toggle="modal" data-target="#exampleModal">Open map</button>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- order card end -->
+    {% endif %}
+    <!-- Driver section end -->
+    {% if dis.role == 'worker' %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" style="margin-top: 80px;">
+        <div class="row">
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Total Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>{{totaljobcount}}</span></h2>
+                        <p class="m-b-0">Approved leave :<span class="f-right">{{ls_cnt}}</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-trash f-left"></i><span>{{ser_len}}</span></h2>
+                        <p class="m-b-0">Waste Collection<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-yellow order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Received</h6>
+                        <h2 class="text-right"><i class="fa fa-truck f-left"></i><span>{{dum_len}}</span></h2>
+                        <p class="m-b-0">Dumpster Order<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-pink order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Orders Completed</h6>
+                        <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>{{ttl_cmp_len}}</span></h2>
+                        <p class="m-b-0">Total order<span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!--order card -->
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+        <h2 class="text-light">
+            <center>Todays Order</center>
+        </h2>
+        {% for i in job %}
+        <div class="card">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                    <h5>WASTE COLLECTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                    {% if i.recollect_dumbster == 1 %}
+                    <h5>RECOLLECT THE DUMPSTER <span class="text-primary font-weight-bold"></span></h5>
+                    {% else %}
+                    <h5>DUMPSTER RENTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column text-sm-right">
+                    <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                    <p class="mb-0">Customer <span class="font-weight-bold">
+                            {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                            {{i.service_scheduled}}
+                            {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                            {{i.dumbster_scheduled}}
+                            {% endif %}
+                        </span></p>
+                    <p class="mb-0">Phone <span class="font-weight-bold">{{i.phone}}</span></p>
+                    <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                    <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                    <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                </div>
+            </div> <!-- Add class 'active' to progress -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <ul id="progressbar" class="text-center">
+                        <li class="active step0"></li>
+                        {% if i.out_for_service == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.arrived_near == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.completed == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between top">
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Order<br>Scheduled</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Out for<br>Service</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Employees Arrive<br>at nearest Location</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Service<br>Arrived</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+                data-toggle="modal" data-target="#exampleModal">Open map</button>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+        <h2 class="text-light">
+            <center>Upcoming Services</center>
+        </h2>
+        {% for i in jobtoday %}
+        <div class="card">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                    <h5>WASTE COLLECTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                    {% if i.recollect_dumbster == 1 %}
+                    <h5>RECOLLECT THE DUMPSTER <span class="text-primary font-weight-bold"></span></h5>
+                    {% else %}
+                    <h5>DUMPSTER RENTING ORDER <span class="text-primary font-weight-bold"></span></h5>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                <div class="d-flex flex-column text-sm-right">
+                    <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                    <p class="mb-0">Customer <span class="font-weight-bold">
+                            {% if i.dumbster_scheduled == "NILL" or i.dumbster_scheduled == "" %}
+                            {{i.service_scheduled}}
+                            {% elif i.service_scheduled == "NILL" or i.service_scheduled == "" %}
+                            {{i.dumbster_scheduled}}
+                            {% endif %}
+                        </span></p>
+                    <p class="mb-0">Phone <span class="font-weight-bold">{{i.phone}}</span></p>
+                    <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                    <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                    <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                </div>
+            </div> <!-- Add class 'active' to progress -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <ul id="progressbar" class="text-center">
+                        <li class="active step0"></li>
+                        {% if i.out_for_service == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class="step0">
+                            <form method="post" action="{% url 'update_out_of_service' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button type="submit" class="update-btn"
+                                    href="{% url 'update_out_of_service' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.arrived_near == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_arrived_near' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                        {% if i.completed == 1 %}
+                        <li class="active step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% else %}
+                        <li class=" step0">
+                            <form method="post" action="{% url 'update_completed' i.job_id %}">
+                                {% csrf_token %}
+                                <input type="text" id="latitude" name="latitude" hidden>
+                                <input type="text" id="longitude" name="longitude" hidden>
+                                <button class="update-btn" href="{% url 'update_completed' i.job_id %}">Update</button>
+                            </form>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between top">
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Order<br>Scheduled</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Out for<br>Service</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Employees Arrive<br>at nearest Location</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column">
+                        <p class="font-weight-bold">Service<br>Arrived</p>
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+                data-toggle="modal" data-target="#exampleModal">Open map</button>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- order card end -->
+    {% endif %}
+    <!-- worker section end -->
+</div>
+<!-- end Tournament section -->
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+{% include 'footerbar.html' %}
+
+<!-- list view -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- end list -->
+
+<!-- jQery -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script>
+<!-- End Google Map -->
+<script>
+    function openMapPopup(lat, lon) {
+        // define the size of the popup window
+        var width = 800;
+        var height = 600;
+
+        // calculate the position of the popup window on the screen
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // create the popup window
+        var popupWindow = window.open('', 'mapPopup', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+
+        // create the map inside the popup window
+        var mapDiv = popupWindow.document.createElement('div');
+        mapDiv.style.width = '100%';
+        mapDiv.style.height = '100%';
+        popupWindow.document.body.appendChild(mapDiv);
+
+        // initialize the map
+
+        navigator.geolocation.getCurrentPosition(position => {
+            // const { latitude, longitude } = position.coords;
+            const latitude = lat;
+            const longitude = lon;
+            mapDiv.innerHTML = '<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
+        });
+    }
+
+</script>
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('#start_date').attr('min', maxDate);
+    });
+
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+        var maxDate = year + '-' + month + '-' + day;
+        $('#end_date').attr('min', maxDate);
+    });
+</script>
+<script>
+    window.onload = function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var latitudeFields = document.getElementsByName("latitude");
+        for (var i = 0; i < latitudeFields.length; i++) {
+            latitudeFields[i].value = latitude;
+        }
+
+        var longitudeFields = document.getElementsByName("longitude");
+        for (var i = 0; i < longitudeFields.length; i++) {
+            longitudeFields[i].value = longitude;
+        }
+        // Do something with the latitude and longitude values, e.g. send them to the server using AJAX
+    }
+</script>
+<style>
+    body {
+        background-image: url(../static/images/driverimage.jpg);
+        height: 100%;
+        max-width: 100%;
+        margin: 0px;
+        background: linear-gradient(90deg, rgb(245, 127, 23), rgb(233, 30, 99), rgb(156, 39, 176), rgb(63, 81, 181));
+        height: 100vh;
+        width: 100vw;
+        background-size: 600% 100%;
+        background-repeat: no-repeat;
+        animation: mygradient 1s linear infinite alternate
+    }
+
+    .boxes div {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border: 2px solid #dda330
+    }
+
+    .boxes div:nth-child(1) {
+        top: 70%;
+        left: 10%;
+        animation: box-animate 10s infinite
+    }
+
+    .boxes div:nth-child(2) {
+        top: 20%;
+        left: 80%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(3) {
+        top: 50%;
+        left: 50%;
+        animation: box-animate 6s infinite
+    }
+
+    .boxes div:nth-child(4) {
+        top: 80%;
+        left: 60%;
+        animation: box-animate 15s infinite
+    }
+
+    .boxes div:nth-child(5) {
+        top: 30%;
+        left: 30%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(6) {
+        top: 90%;
+        left: 90%;
+        animation: box-animate 12s infinite
+    }
+
+    .boxes div:nth-child(7) {
+        top: 80%;
+        left: 30%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(8) {
+        top: 40%;
+        left: 20%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(9) {
+        top: 50%;
+        left: 80%;
+        animation: box-animate 2s infinite
+    }
+
+    @keyframes box-animate {
+        0% {
+            transform: scale(0) translateY(0) rotate(0);
+            opacity: 1
+        }
+
+        100% {
+            transform: scale(1.3) translateY(-90px) rotate(360deg);
+            opacity: 0
+        }
+    }
+
+    .update-btn {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .update-btn:hover {
+        background-color: darkgreen;
+    }
+
+    .card {
+        z-index: 0;
+        background-color: #ECEFF1;
+        padding-bottom: 20px;
+        margin-top: 90px;
+        margin-bottom: 90px;
+        border-radius: 10px;
+        opacity: 0.9;
+    }
+
+    .top {
+        padding-top: 40px;
+        padding-left: 13% !important;
+        padding-right: 13% !important
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455A64;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400
+    }
+
+    #progressbar .step0:before {
+        font-family: FontAwesome;
+        content: "\f10c";
+        color: #fff
+    }
+
+    #progressbar li:before {
+        width: 40px;
+        height: 40px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        background: #C5CAE9;
+        border-radius: 50%;
+        margin: auto;
+        padding: 0px
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 12px;
+        background: #C5CAE9;
+        position: absolute;
+        left: 0;
+        top: 16px;
+        z-index: -1
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        left: -50%
+    }
+
+    #progressbar li:nth-child(2):after,
+    #progressbar li:nth-child(3):after {
+        left: -50%
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        position: absolute;
+        left: 50%
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #651FFF
+    }
+
+    #progressbar li.active:before {
+        font-family: FontAwesome;
+        content: "\f00c"
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px
+    }
+
+    .icon-content {
+        padding-bottom: 20px
+    }
+
+    @media screen and (max-width: 992px) {
+        .icon-content {
+            width: 50%
+        }
+    }
+
+    @keyframes mygradient {
+        0% {
+            background-position: 0%
+        }
+
+        100% {
+            background-position: 100%
+        }
+    }
+
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        50% {
+            transform: rotate(90deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    #wave {
+        height: 100%;
+        overflow: hidden
+    }
+
+    #wave:before {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(24, 11, 4, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s ease-in-out infinite;
+        animation-delay: -3s
+    }
+
+    #wave:after {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(81, 33, 7, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s linear infinite
+    }
+
+
+    .order-card {
+        color: #fff;
+    }
+
+    .bg-c-blue {
+        background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+        background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+    .bg-c-yellow {
+        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
+
+    .bg-c-pink {
+        background: linear-gradient(45deg, #FF5370, #ff869a);
+    }
+
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: none;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+        padding: 25px;
+    }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900");
+    @import url("https://cdn.linearicons.com/free/1.0.0/icon-font.min.css");
+
+
+
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}

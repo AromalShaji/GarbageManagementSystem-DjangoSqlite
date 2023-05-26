@@ -1,0 +1,1614 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title%}
+Help
+{% endblock %}
+
+{% block content%}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-radius: 20px;
+        align-items: center;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #515050;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
+<!-- <div id="wave"></div> -->
+<div style="margin-top: 30px; margin-bottom: 70px;">
+    <ul class="filters_menu">
+        <li style="color: rgb(247, 247, 247);">
+            <div class="heading_container heading_center">
+                <b class="font-weight-bold">
+                    <span class="glo" style="color: rgba(255, 138, 49, 0.718);">
+                        <h2>
+                            Type of waste
+                        </h2>
+                    </span>
+                </b>
+            </div>
+        </li>
+        <li class="active" data-filter="*" style="color: rgb(255, 254, 254);">
+            <div class="container h-100 ">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="searchbar">
+                        <input class="search-input" id="search-input" type="text" name="data" placeholder="Search"
+                            required style="border-radius: 20px; background-color : #353b48;" />
+                        <button class="search_icon fa fa-search" onclick="findOnPage()"></button>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <div class="d-flex justify-content-center">
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#organic"><b>Organic</b></a>
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#plastic"><b>Plastic</b></a>
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#electronic"><b>Electronic</b></a>
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#metal"><b>Metal</b></a>
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#paper"><b>Paper</b></a>
+            <a class="text-dark fw-bold btn btn-warning mx-1" href="#hazardous"><b>Hazardous</b></a>
+        </div>
+
+    </ul>
+</div>
+
+<div class="hero_area">
+    <div style="margin-top: 30px; margin-bottom: 70px;">
+        <h1 class="text-light" style="align-items: center; margin-top: 20px; margin-bottom: 40px;">
+            <center>Different type of waste</center>
+        </h1>
+        <marquee>
+            <b class="text-warning" loop="-1">Waste management is a critical aspect of maintaining public health and
+                preserving
+                the
+                environment. Effective waste management practices ensure that waste materials are properly collected,
+                transported, treated, and disposed of in a manner that minimizes risks to public health and the
+                environment.
+
+                One of the most important aspects of waste management in public is the proper disposal of waste
+                materials.
+                This
+                includes ensuring that waste is collected and transported in a manner that minimizes its impact on the
+                environment and public health. This may involve the use of waste segregation methods to separate
+                recyclable
+                materials from non-recyclable materials, as well as the use of appropriate disposal methods such as
+                landfill
+                sites, incineration, or composting.
+
+                Another important aspect of waste management in public is the promotion of waste reduction and
+                recycling.
+                This
+                involves encouraging individuals and organizations to adopt practices that reduce waste generation and
+                increase
+                the reuse and recycling of materials. For example, individuals can reduce waste by using reusable bags
+                and
+                containers, while organizations can implement recycling programs and use recycled materials in their
+                products
+                and processes.
+
+                Effective waste management in public also involves education and awareness-raising efforts. This
+                includes
+                educating individuals and communities on the importance of proper waste disposal and recycling, as well
+                as
+                providing information on the potential risks associated with improper waste disposal. By increasing
+                public
+                awareness and knowledge of waste
+            </b>
+        </marquee>
+        <table>
+            <tr>
+                <th style="background-color: #9b9a9a;">Material</th>
+                <td>Paper and cardboard</td>
+                <td>Plastic</td>
+                <td>Glass</td>
+                <td>Metal</td>
+                <td>Electronics</td>
+                <td>Hazardous waste</td>
+                <td>Organic waste</td>
+            </tr>
+            <tr>
+                <th style="background-color: #9b9a9a;">Recycling/Disposal Instructions</th>
+                <td>Recyclable. Place in a recycling bin. If in good condition, cardboard boxes can also be reused.</td>
+                <td>Different types require different recycling processes. Plastic bottles, containers, and bags are
+                    generally recyclable. Check the recycling symbol on the item and follow local recycling guidelines.
+                </td>
+                <td>Recyclable. Rinse out any remaining contents and place in a recycling bin. Broken glass should be
+                    wrapped and disposed of in a sealed container to avoid injuries.</td>
+                <td>Recyclable. Rinse out any remaining contents and place in a recycling bin.</td>
+                <td>Do not throw away in regular trash. Check with local waste management services or electronics stores
+                    for
+                    electronic waste recycling programs.</td>
+                <td>Disposal should follow local guidelines. Many communities have designated hazardous waste collection
+                    days or drop-off locations.</td>
+                <td>Can be composted to create nutrient-rich soil. Check with local waste management services or
+                    community
+                    gardens for composting programs.</td>
+            </tr>
+        </table>
+        <section id="slideshow">
+            <div class="slide">
+                <img src="{% static '/images/paper_cardboard.jpg' %}" alt="Paper and cardboard">
+                <div class="caption">
+                    <h2>Paper and Cardboard waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/plastic.jpg' %}" alt="Plastic">
+                <div class="caption">
+                    <h2>Plastic waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/glass.jpg' %}" alt="Glass">
+                <div class="caption">
+                    <h2>Glass waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/metal.jpg' %}" alt="Metal waste">
+                <div class="caption">
+                    <h2>Metal waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/electronics.jpg' %}" alt="Electronics waste">
+                <div class="caption">
+                    <h2>Electronics waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/hazardous.jpg' %}" alt="Hazardous Waste">
+                <div class="caption">
+                    <h2>Hazardous Waste</h2>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="{% static '/images/organic.jpg' %}" alt="Organic Waste">
+                <div class="caption">
+                    <h2>Organic Waste</h2>
+                </div>
+            </div>
+        </section>
+    </div>
+    <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+        <center>Waste Recycling and Disposal Guide</center>
+    </h1>
+    <marquee>
+        <b class="text-warning" loop="-1">Waste management is a critical aspect of maintaining public health and
+            preserving
+            the
+            environment. Effective waste management practices ensure that waste materials are properly collected,
+            transported, treated, and disposed of in a manner that minimizes risks to public health and the environment.
+
+            One of the most important aspects of waste management in public is the proper disposal of waste materials.
+            This
+            includes ensuring that waste is collected and transported in a manner that minimizes its impact on the
+            environment and public health. This may involve the use of waste segregation methods to separate recyclable
+            materials from non-recyclable materials, as well as the use of appropriate disposal methods such as landfill
+            sites, incineration, or composting.
+
+            Another important aspect of waste management in public is the promotion of waste reduction and recycling.
+            This
+            involves encouraging individuals and organizations to adopt practices that reduce waste generation and
+            increase
+            the reuse and recycling of materials. For example, individuals can reduce waste by using reusable bags and
+            containers, while organizations can implement recycling programs and use recycled materials in their
+            products
+            and processes.
+
+            Effective waste management in public also involves education and awareness-raising efforts. This includes
+            educating individuals and communities on the importance of proper waste disposal and recycling, as well as
+            providing information on the potential risks associated with improper waste disposal. By increasing public
+            awareness and knowledge of waste
+        </b>
+    </marquee>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div id="search-results" hidden></div>
+    <section style="margin-bottom: 40px;" id="organic">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Organic waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Composting</td>
+                    <td>The process of breaking down organic waste into a nutrient-rich soil amendment using a
+                        mixture
+                        of "greens" (such as fruit and vegetable scraps, grass clippings, and coffee grounds) and
+                        "browns" (such as leaves, twigs, and paper).</td>
+                </tr>
+                <tr>
+                    <td>Vermicomposting</td>
+                    <td>Similar to composting, but uses worms to break down the organic waste. This process is done
+                        in a
+                        worm bin, which is a container filled with bedding material and worms. The worms eat the
+                        organic
+                        waste and produce a nutrient-rich compost.</td>
+                </tr>
+                <tr>
+                    <td>Anaerobic digestion</td>
+                    <td>The process of breaking down organic waste in the absence of oxygen, which produces biogas
+                        that
+                        can be used as a source of energy. This process is typically done on a larger scale by
+                        industrial facilities.</td>
+                </tr>
+                <tr>
+                    <td>Landfills</td>
+                    <td>Organic waste can be disposed of in a landfill, where it will decompose and release methane
+                        gas.
+                        However, this is not the most environmentally friendly option, as methane is a potent
+                        greenhouse
+                        gas.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/md5hmSu7fPg"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/c1adiK8nLbA"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/0jOk-b2BAT0"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/8Z0Cmy9WppQ"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <section style="margin-bottom: 40px;" id="plastic">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Plastic waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Check the recycling symbol on the plastic item</td>
+                    <td>Plastic items are usually marked with a recycling symbol with a number from 1 to 7, which
+                        indicates the type of plastic it is. Check the symbol to determine whether the item can be
+                        recycled.</td>
+                </tr>
+                <tr>
+                    <td>Clean and sort the plastic</td>
+                    <td>Rinse the plastic to remove any remaining contents and sort it by type. This will help to
+                        ensure
+                        that the plastic is properly recycled and processed.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Find local recycling guidelines</td>
+                    <td>Check with your local recycling program to find out what types of plastic they accept and
+                        how
+                        they shosectiond be prepared. Some recycling programs may only accept certain types of plastic,
+                        while
+                        others may require that the plastic be sorted or prepared in a specific way.</td>
+                </tr>
+                <tr>
+                    <td>Recycle the plastic</td>
+                    <td>Once you've sorted the plastic and prepared it according to local guidelines, place it in
+                        the
+                        recycling bin. Plastic items that are commonly recyclable include plastic bottles,
+                        containers,
+                        and lids. Make sure to remove any non-plastic parts, such as metal caps or pumps, before
+                        recycling.</td>
+                </tr>
+                <tr>
+                    <td>Reduce plastic waste</td>
+                    <td>To reduce plastic waste, try to avoid single-use plastic items, use reusable bags and
+                        containers, and choose products with minimal packaging. This will help to reduce the amount
+                        of
+                        plastic waste that you generate and ensure that the plastic that you do use is properly
+                        recycled.</td>
+                </tr>
+                <tr>
+                    <td>Properly dispose of non-recyclable plastics</td>
+                    <td>Some plastic items cannot be recycled, such as plastic bags, straws, and utensils. These
+                        shosectiond
+                        be disposed of in the trash, but try to minimize their use whenever possible. You can also
+                        look
+                        for alternative, eco-friendly options such as reusable bags and metal or bamboo utensils.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/1-tS7JH4Jyw"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/I_fUpP-hq3A"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Lfj8SKFlTpI"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/zO3jFKiqmHo"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <section style="margin-bottom: 40px;" id="electronic">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Electronic Waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Determine if the item can be recycled</td>
+                    <td>Electronic waste, or e-waste, includes items such as computers, laptops, cell phones,
+                        televisions, and other electronic devices. Check to see if the item can be recycled or if it
+                        contains hazardous materials that require special handling.</td>
+                </tr>
+                <tr>
+                    <td>Check local recycling options</td>
+                    <td>Many communities have designated e-waste recycling programs or facilities. Check with your
+                        local
+                        government or waste management department to find out how and where you can recycle your
+                        e-waste.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Consider donating or selling the item</td>
+                    <td>If the electronic device is still functional, consider donating it to a local charity or
+                        selling
+                        it. This can extend the life of the item and reduce waste.</td>
+                </tr>
+                <tr>
+                    <td>Remove personal information</td>
+                    <td>Before recycling or donating your electronic device, make sure to remove any personal
+                        information or data. Use software to wipe the device clean or physically destroy the hard
+                        drive.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Recycle the e-waste</td>
+                    <td>If the electronic device cannot be reused or sold, it shosectiond be recycled. Follow local
+                        guidelines for proper disposal. In some cases, the manufacturer or retailer may offer
+                        e-waste
+                        recycling programs.</td>
+                </tr>
+                <tr>
+                    <td>Do not dispose of e-waste in the trash</td>
+                    <td>E-waste shosectiond never be disposed of in the trash or thrown into landfills. This can lead to
+                        environmental contamination and harm human health.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ApdkhWd7SfQ"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/S2lmPIa1iWE"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/aUwFXDLOFO0"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/7nqmjrQcAgg"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <section style="margin-bottom: 40px;" id="metal">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Metal Waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Identify the type of metal</td>
+                    <td>Metal waste can include aluminum, steel, tin, copper, and other metals. Identify the type of
+                        metal before recycling or disposing of it.</td>
+                </tr>
+                <tr>
+                    <td>Check with local recycling guidelines</td>
+                    <td>Check with your local recycling program to find out what types of metal they accept and how
+                        they
+                        shosectiond be prepared for recycling.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Separate metals</td>
+                    <td>Separate different types of metal to ensure they are properly recycled. For example, copper
+                        shosectiond be separated from aluminum.</td>
+                </tr>
+                <tr>
+                    <td>Clean the metal</td>
+                    <td>Clean the metal waste to remove any debris or dirt. This will ensure that it is properly
+                        recycled and can be used in new products.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Prepare for recycling</td>
+                    <td>Prepare the metal for recycling according to local guidelines. This may include removing any
+                        non-metal parts, such as plastic or rubber, before recycling.</td>
+                </tr>
+                <tr>
+                    <td>Take to a recycling center</td>
+                    <td>Take the metal waste to a recycling center that accepts the type of metal you have. Many
+                        recycling centers will pay for scrap metal, so you may be able to earn some money while
+                        recycling.</td>
+                </tr>
+                <tr>
+                    <td>Properly dispose of non-recyclable metal</td>
+                    <td>Some metal waste cannot be recycled, such as aerosol cans or metal objects contaminated with
+                        hazardous materials. These shosectiond be disposed of in the trash, but be sure to follow any
+                        local
+                        guidelines for hazardous waste disposal.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/LyR7I5xsK9k"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/qAGCI0-pQ3E"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/M-O-0XG3HJw"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/E71Ju42AQ5w"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <section style="margin-bottom: 40px;" id="paper">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Paper and cardboard Waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Separate paper and cardboard from other waste</td>
+                    <td>Keep paper and cardboard separate from other waste to make it easier to recycle.</td>
+                </tr>
+                <tr>
+                    <td>Check for contaminants</td>
+                    <td>Remove any contaminants such as plastic or metal before recycling paper and cardboard. These
+                        items can contaminate the recycling process and prevent the paper from being recycled
+                        properly.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Flatten and bundle cardboard</td>
+                    <td>Flatten cardboard boxes and bundle them together with twine or tape. This makes it easier to
+                        transport and process for recycling.</td>
+                </tr>
+                <tr>
+                    <td>Find local recycling guidelines</td>
+                    <td>Check with your local recycling program to find out what types of paper and cardboard they
+                        accept and how they shosectiond be prepared. Some programs may only accept certain types of
+                        paper
+                        or
+                        cardboard, while others may require that the materials be sorted or prepared in a specific
+                        way.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Recycle the paper and cardboard</td>
+                    <td>Once you've sorted the paper and cardboard and prepared it according to local guidelines,
+                        place
+                        it in the recycling bin. Common types of paper that can be recycled include newspapers,
+                        magazines, office paper, and cardboard boxes.</td>
+                </tr>
+                <tr>
+                    <td>Reduce paper waste</td>
+                    <td>To reduce paper waste, try to use digital documents and communication when possible, and opt
+                        for
+                        electronic bills and receipts. You can also reuse paper and cardboard for art projects or
+                        packaging materials.
+                <tr>
+                    <td>Properly dispose of non-recyclable paper and cardboard</td>
+                    <td> Some paper and cardboard items cannot be recycled, such as waxed cardboard or paper
+                        contaminated with food waste. These items shosectiond be disposed of in the trash, but try to
+                        minimize their use whenever possible.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/RVYBRgV-E2U"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/20QuJf4vbGk"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/xuanL5dD2JI"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/jAqVxsEgWIM"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <section style="margin-bottom: 40px;" id="hazardous">
+        <h1 class="text-light" style="align-items: center; margin-top: 30px;">
+            <center>Hazardous Waste</center>
+        </h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Identify hazardous waste</td>
+                    <td>Hazardous waste is any material that poses a risk to human health or the environment.
+                        Examples
+                        include batteries, electronics, pesticides, and chemicals. It's important to identify
+                        hazardous
+                        waste to ensure that it is properly handled and disposed of.</td>
+                </tr>
+                <tr>
+                    <td>Check local guidelines</td>
+                    <td>Hazardous waste disposal guidelines vary depending on your location. Check with your local
+                        waste
+                        management authority to determine what types of hazardous waste they accept and how they
+                        shosectiond
+                        be handled.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Store hazardous waste safely</td>
+                    <td>Hazardous waste shosectiond be stored in a safe and secure location that is clearly labeled to
+                        prevent accidental exposure. Keep hazardous waste out of reach of children and pets.</td>
+                </tr>
+                <tr>
+                    <td>Separate hazardous waste</td>
+                    <td>Hazardous waste shosectiond be separated from other types of waste to prevent contamination.
+                        Store
+                        different types of hazardous waste in separate containers.
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dispose of hazardous waste</td>
+                    <td>Hazardous waste shosectiond be disposed of through a licensed hazardous waste disposal facility.
+                        Do
+                        not dispose of hazardous waste in the trash or down the drain. Follow local guidelines for
+                        transportation and disposal of hazardous waste.</td>
+                </tr>
+                <tr>
+                    <td>Reduce hazardous waste</td>
+                    <td>TTo reduce hazardous waste, consider using safer alternatives to hazardous products. For
+                        example, use non-toxic cleaners instead of harsh chemicals. Properly dispose of hazardous
+                        waste
+                        by following local guidelines to help protect the environment and human health.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/75SU5h1PjxY"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/D8jfLf_bODs"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/lnTHEmavvgM"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/w_xI_17u7ro"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+    </section>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="boxes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+<!-- list view -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- end list -->
+
+<!-- jQery -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script>
+<!-- End Google Map -->
+<script>
+
+    var searchIndex = 0; // global variable to keep track of the search results
+
+    function findOnPage() {
+        var input = document.getElementById("search-input");
+        var searchText = input.value.toLowerCase();
+        var found;
+
+        if (searchText.length > 0) {
+            // clear previous search results
+            var highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(function (highlight) {
+                highlight.outerHTML = highlight.innerHTML;
+            });
+
+            // find next occurrence of search term
+            found = window.find(searchText, false, false, true, false, true, false);
+
+            if (found) {
+                // highlight search result
+                var selection = window.getSelection();
+                var range = selection.getRangeAt(0);
+                var highlight = document.createElement("span");
+                highlight.setAttribute("class", "highlight");
+                highlight.appendChild(range.extractContents());
+                range.insertNode(highlight);
+
+                // scroll to highlighted element
+                highlight.scrollIntoView({ top: scrollTarget, behavior: 'smooth' });
+
+                // increment search index
+                searchIndex += 1;
+            } else {
+                alert("No more results found for '" + searchText + "'.");
+                searchIndex = 0;
+            }
+
+            // display search results in container
+            var container = document.getElementById("search-results-container");
+            if (!container) {
+                container = document.createElement("div");
+                container.setAttribute("id", "search-results-container");
+                document.body.appendChild(container);
+            }
+            container.innerHTML = "Showing results for '" + searchText + "' (" + searchIndex + ")";
+        } else {
+            alert("Please enter a search term.");
+            searchIndex = 0;
+        }
+    }
+
+
+    var slideIndex = 0;
+    var slides = document.getElementsByClassName("slide");
+
+    showSlide(slideIndex);
+
+    setInterval(function () {
+        slideIndex++;
+        if (slideIndex >= slides.length) {
+            slideIndex = 0;
+        }
+        showSlide(slideIndex);
+    }, 5000);
+
+    function showSlide(index) {
+        for (var i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
+        }
+        slides[index].classList.add("active");
+    }
+
+</script>
+<script>
+    // scroll to the correct section when the link is clicked
+    $('a[href^="#"]').on('click', function (event) {
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: target.offset().top - 150 // adjust this value to your needs
+            }, 1000);
+        }
+    });
+</script>
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+    @import url(https://raw.github.com/FortAwesome/Font-Awesome/master/docs/assets/css/font-awesome.min.css);
+
+    .highlight {
+        background-color: yellow;
+    }
+
+    .hero_area {
+        margin-top: 150px;
+        padding-top: 40px;
+        /* add padding to the top of the body */
+    }
+
+    .filters_menu {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(90deg, rgb(119, 55, 23), rgb(85, 38, 54), rgb(0, 0, 0), rgb(77, 28, 3));
+        z-index: 9999;
+        margin-bottom: 10px;
+    }
+
+    #slideshow {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    .slide.active {
+        opacity: 1;
+    }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        transition: transform 0.5s;
+        transform: translateY(100%);
+    }
+
+    .slide.active .caption {
+        transform: translateY(0);
+    }
+
+
+    section.expanded {
+        background-color: yellow;
+    }
+
+    .iframe-container {
+        display: inline-block;
+        margin: 30px;
+    }
+
+    .iframe-container iframe {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .waste-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .waste-item {
+        text-align: center;
+    }
+
+    .waste-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    #search-container {
+        width: 500px;
+        margin-bottom: 20px;
+    }
+
+    .searchbar {
+        margin-bottom: auto;
+        margin-top: auto;
+        height: 60px;
+        background-color: #353b48;
+        border-radius: 30px;
+        padding: 10px;
+        width: 550px;
+
+    }
+
+    .search-input {
+        color: white;
+        border: 0;
+        outline: 0;
+        background-color: #353b48;
+        width: 0;
+        caret-color: transparent;
+        line-height: 40px;
+        padding: 0 10px;
+        width: 450px;
+        caret-color: red;
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search-input {
+        padding: 0 10px;
+        width: 450px;
+        caret-color: rgb(221, 159, 5);
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search_icon {
+        background: white;
+        color: #e74c3c;
+    }
+
+    .search_icon {
+        height: 40px;
+        width: 40px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: rgb(104, 22, 22);
+        text-decoration: none;
+    }
+
+
+    #wrap {
+        margin: 50px 100px;
+        display: inline-block;
+        position: relative;
+        height: 60px;
+        padding: 0;
+        position: relative;
+    }
+
+    body {
+        background-image: url(../static/images/driverimage.jpg);
+        height: 100%;
+        max-width: 100%;
+        margin: 0px;
+        background: linear-gradient(90deg, rgb(245, 127, 23), rgb(233, 30, 99), rgb(156, 39, 176), rgb(63, 81, 181));
+        height: 100vh;
+        width: 100vw;
+        background-size: 600% 100%;
+        background-repeat: no-repeat;
+        animation: mygradient 1s linear infinite alternate
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+        color: #ddd;
+    }
+
+    td {
+        color: #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        color: #000000;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .boxes div {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border: 2px solid #dda330
+    }
+
+    .boxes div:nth-child(1) {
+        top: 70%;
+        left: 10%;
+        animation: box-animate 10s infinite
+    }
+
+    .boxes div:nth-child(2) {
+        top: 20%;
+        left: 80%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(3) {
+        top: 50%;
+        left: 50%;
+        animation: box-animate 6s infinite
+    }
+
+    .boxes div:nth-child(4) {
+        top: 80%;
+        left: 60%;
+        animation: box-animate 15s infinite
+    }
+
+    .boxes div:nth-child(5) {
+        top: 30%;
+        left: 30%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(6) {
+        top: 90%;
+        left: 90%;
+        animation: box-animate 12s infinite
+    }
+
+    .boxes div:nth-child(7) {
+        top: 80%;
+        left: 30%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(8) {
+        top: 40%;
+        left: 20%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(9) {
+        top: 50%;
+        left: 80%;
+        animation: box-animate 2s infinite
+    }
+
+    @keyframes box-animate {
+        0% {
+            transform: scale(0) translateY(0) rotate(0);
+            opacity: 1
+        }
+
+        100% {
+            transform: scale(1.3) translateY(-90px) rotate(360deg);
+            opacity: 0
+        }
+    }
+
+    .update-btn {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .update-btn:hover {
+        background-color: darkgreen;
+    }
+
+    .card {
+        z-index: 0;
+        background-color: #ECEFF1;
+        padding-bottom: 20px;
+        margin-top: 90px;
+        margin-bottom: 90px;
+        border-radius: 10px;
+        opacity: 0.9;
+    }
+
+    .top {
+        padding-top: 40px;
+        padding-left: 13% !important;
+        padding-right: 13% !important
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455A64;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400
+    }
+
+    #progressbar .step0:before {
+        font-family: FontAwesome;
+        content: "\f10c";
+        color: #fff
+    }
+
+    #progressbar li:before {
+        width: 40px;
+        height: 40px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        background: #C5CAE9;
+        border-radius: 50%;
+        margin: auto;
+        padding: 0px
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 12px;
+        background: #C5CAE9;
+        position: absolute;
+        left: 0;
+        top: 16px;
+        z-index: -1
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        left: -50%
+    }
+
+    #progressbar li:nth-child(2):after,
+    #progressbar li:nth-child(3):after {
+        left: -50%
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        position: absolute;
+        left: 50%
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #651FFF
+    }
+
+    #progressbar li.active:before {
+        font-family: FontAwesome;
+        content: "\f00c"
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px
+    }
+
+    .icon-content {
+        padding-bottom: 20px
+    }
+
+    @media screen and (max-width: 992px) {
+        .icon-content {
+            width: 50%
+        }
+    }
+
+    @keyframes mygradient {
+        0% {
+            background-position: 0%
+        }
+
+        100% {
+            background-position: 100%
+        }
+    }
+
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        50% {
+            transform: rotate(90deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    #wave {
+        height: 100%;
+        overflow: hidden
+    }
+
+    #wave:before {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(24, 11, 4, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s ease-in-out infinite;
+        animation-delay: -3s
+    }
+
+    #wave:after {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(81, 33, 7, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s linear infinite
+    }
+
+
+    .order-card {
+        color: #fff;
+    }
+
+    .bg-c-blue {
+        background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+        background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+    .bg-c-yellow {
+        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
+
+    .bg-c-pink {
+        background: linear-gradient(45deg, #FF5370, #ff869a);
+    }
+
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: none;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+        padding: 25px;
+    }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900");
+    @import url("https://cdn.linearicons.com/free/1.0.0/icon-font.min.css");
+
+
+
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}

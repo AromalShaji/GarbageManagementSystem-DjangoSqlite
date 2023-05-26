@@ -1,0 +1,463 @@
+{% load static %}
+<html>
+{% if messages %}
+<ul class="messages" style="width: 100%;">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #666;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+
+<head>
+    <title>
+        {% block title%} Login {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.0/dist/sweetalert2.all.min.js"></script>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body>
+    <div class="container" id="container" style="opacity: 0.9; background-size: cover;">
+        <div class="form-container sign-in-container">
+            <form method="POST" action="{%url 'login' %}">
+                {% csrf_token %}
+                <div class="patterns">
+                    <svg width="100%" height="100%">
+                        <defs>
+                            <pattern id="polka-dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                                <circle fill="#be9ddf" cx="25" cy="25" r="3"></circle>
+                            </pattern>
+                            <style>
+                                @import url("https://fonts.googleapis.com/css?  family=Lora:400,400i,700,700i");
+                            </style>
+
+                        </defs>
+
+                        <rect x="0" y="0" width="100%" height="100%" fill="url(#polka-dots)"> </rect>
+                        <text x="50%" y="60%" text-anchor="middle">
+                            Sign In
+                        </text>
+                    </svg>
+                </div>
+                <h1></h1>
+                <br>
+                <input type="email" name="useremail" placeholder="Email" required="required"
+                    style="font-family: monospace; border-radius: 20px;" />
+                <input type="password" name="password" placeholder="Password" required="required"
+                    style="font-family: monospace; border-radius: 20px;" />
+                <input class="submit" type="submit" name="" value="Sign In">
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <form method="POST" action="{%url 'signup' %}">
+                    {% csrf_token %}
+                    <div class="overlay-panel overlay-right"
+                        style="background: linear-gradient(45deg, #ffffff, #0f053f, #69599e);">
+                        <h1>Want to Register</h1>
+                        <p class="pp">To keep connected with us please login with your personal info</p>
+                        <button class="ghost" id="signIn">Register Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-size: cover;
+            background-image: url(../static/images/10.jpg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 100%;
+            width: 100%;
+            margin: -20px 0 50px;
+        }
+
+        .a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 12px;
+        }
+
+        .pp {
+            font-weight: 700;
+            text-align: center;
+            font-size: 12px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #0b1f61, #fff, #0d0460);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+
+
+        .patterns {
+            height: 100vh;
+        }
+
+
+
+        svg text {
+            font-family: Lora;
+            letter-spacing: 10px;
+            stroke: #ffa5d8;
+            font-size: 60px;
+            font-weight: 700;
+            stroke-width: 3;
+
+            animation: textAnimate 5s infinite alternate;
+
+        }
+
+        @keyframes textAnimate {
+            0% {
+                stroke-dasharray: 0 50%;
+                stroke-dashoffset: 20%;
+                fill: hsl(189, 68%, 75%)
+            }
+
+            100% {
+                stroke-dasharray: 50% 0;
+                stroke-dashoffstet: -20%;
+                fill: hsla(189, 68%, 75%, 0%)
+            }
+
+        }
+
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+
+        input.submit {
+            border-radius: 20px;
+            border: 1px solid #02864f;
+            background-color: #19a56b;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #02864f;
+            background-color: #19a56b;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        button.ghost {
+            background-color: transparent;
+            border-color: #FFFFFF;
+        }
+
+        form {
+            background-color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+        }
+
+        .social-container {
+            margin: 20px 0;
+        }
+
+        .social-container input {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 15px;
+            width: 15px;
+        }
+
+        input {
+            background-color: #eee;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+        }
+
+        .container {
+            background-color: #a4a4a4;
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            position: relative;
+            overflow: hidden;
+            width: 60%;
+            max-width: 100%;
+            min-height: 90%;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+        }
+
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
+
+        @keyframes show {
+
+            0%,
+            49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background: #02864f;
+            background: -webkit-linear-gradient(to right, #19a56b, #02864f);
+            background: linear-gradient(to right, #19a56b, #02864f);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: #FFFFFF;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        footer {
+            background-color: #222;
+            color: #fff;
+            font-size: 14px;
+            bottom: 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 999;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+    </style>
+
+</body>
+
+</html>

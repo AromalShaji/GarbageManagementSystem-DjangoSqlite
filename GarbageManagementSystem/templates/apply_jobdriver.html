@@ -1,0 +1,210 @@
+{% load static %}
+<html>
+
+<head>
+    <title>
+        {% block title%} JOB APPLICATION {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+        href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color: #222; height: fit-content; opacity: 0.9;">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="{% static '/images/driverapplication.png' %}" alt="rocket_contact" />
+        </div>
+        <form method="POST" action="{% url 'applicationjobdriver' job.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>JOB APPLICATION<br>{{company}}</h3>
+            <h3>
+                <p><br><a href="">Apply for this job</a></p>
+            </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label><b>Name : </b></label>
+                        <input type="text" name="name" class="form-control" placeholder="Name*" value={{dis}}
+                            required="required" style="font-family:
+                                monospace;" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label><b>Salary : </b></label>
+                        <input type="text" name="salary" class="form-control" placeholder="Salary*"
+                            value="{{job.salary}}" required="required" readonly style="font-family: monospace;" />
+                    </div>
+                    <div class="form-group">
+                        <label><b>Areas where Companys Service available :
+                            </b></label>
+                        <input type="text" name="area" class="form-control" placeholder="Areas where Companys Service
+                                available*" value="{{company.carea}}" required="required" readonly style="font-family:
+                                monospace;" />
+                    </div>
+                    <div class="form-group">
+                        <label><b>Year Of Expirence : </b></label>
+                        <input type="number" name="expirence" class="form-control" placeholder="Expirence*"
+                            required="required" style="font-family:
+                                monospace;" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Submit" href="{% url
+                                'applicationjobdriver' job.id %}" required="required" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <br>
+                    <div class="overlay-container">
+                        <div class="overlay">
+                            <div class="overlay-panel overlay-right">
+                                <u><b>Shift Time</b></u><br><br>
+                                <label>Start Time : </label>
+                                <input type="text" name="start_time" class="form-control"
+                                    placeholder="Shift Start Time*" value="{{job.start_time}}" required="required"
+                                    style="width: 80px;" readonly style="font-family: monospace;" />
+                                <label>End Time : </label>
+                                <input type="text" name="end_time" class="form-control" placeholder="Shift
+                                        End Time*" value="{{job.end_time}}" required="required" style="width: 80px;"
+                                    readonly style="font-family:
+                                        monospace;" />
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="form-group">
+                        <label for="choose-file" class="label-title">
+                            <b class="font-weight-bold">Upload Licence*</b>
+                        </label><br>
+                        <input type="file" id='licence' name="licence" style="font-family: monospace; ">
+                        <br><small>*upload Licence image</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-image: url(../static/images/8.jpg);
+            height: fit-content;
+            background-size: cover;
+        }
+
+        .container {
+            opacity: 1.0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 24px;
+        }
+
+        p {
+            font-weight: 700;
+            text-align: center;
+            font-size: 40px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+
+        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+
+        .contact-form {
+            background: #fff;
+            margin-top: 10%;
+            margin-bottom: 5%;
+            width: 60%;
+            border-radius: 20px;
+            opacity: 0.9;
+
+        }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 14%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</body>
+
+</html>

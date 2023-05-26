@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEaaokLCkdnmU8Jcu7bxHp0jwGgaHEIF0=myMap">
+  </script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="">
+  <title>
+    {% block title%} {% endblock %}
+  </title>
+  <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+  <!-- bootstrap core css -->
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css" /> -->
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+    integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ=="
+    crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <!-- <link href="css/font-awesome.min.css" rel="stylesheet" /> -->
+
+  <!-- Custom styles for this template -->
+  <!-- <link href="css/style.css" rel="stylesheet" /> -->
+  <!-- responsive style -->
+  <!-- <link href="css/responsive.css" rel="stylesheet" /> -->
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css.map' %}">
+  <link rel="stylesheet" href="{% static 'css/style.scss' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+
+</head>
+
+<body class="body"
+  style="background: linear-gradient(90deg, rgb(119, 55, 23), rgb(85, 38, 54), rgb(0, 0, 0), rgb(77, 28, 3)); animation: mygradient 24s linear infinite alternate">
+  <section>{% block content %} {% endblock %}</section>
+  <style>
+    .body {
+      height: 100%;
+      max-width: 100%;
+      margin: 0px;
+      background: linear-gradient(90deg, rgb(89, 36, 5), rgb(78, 38, 20), rgb(0, 0, 0), rgb(3, 14, 77));
+      height: 100vh;
+      width: 100vw;
+      animation: mygradient 24s linear infinite alternate
+    }
+  </style>
+</body>
+
+</html>

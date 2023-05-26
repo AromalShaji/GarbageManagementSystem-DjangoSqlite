@@ -1,0 +1,230 @@
+{% load static %}
+<html>
+
+<head>
+    <title>
+        {% block title%} Job Registration {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color: #222; height: fit-content; opacity: 0.9;">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="{% static '/images/drivericon.jpg' %}" alt="rocket_contact" />
+        </div>
+        <form method="POST" action="{% url 'regjob_employee' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>JOB DETAILS</h3>
+            <h3>
+                <p><br><a href="https://codepen.io/grohit/">add job for the Employee</a></p>
+            </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="vacancy" class="form-control" placeholder="Number of Job Vacancy*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <br><br>
+                <div class="form-group">
+                    <input type="text" name="salary" class="form-control" placeholder="Salary*" style="font-family: monospace;" required="required" />
+                </div>
+                <div class="form-group">
+                    <textarea name="desc" class="form-control" placeholder="Description" style="font-family: monospace;" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="btnSubmit" class="btnContact" value="Submit"
+                        href="{% url 'regjob_employee' %}" required="required" />
+                </div>
+            </div>
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-right">
+                        <b>Shift Time : </b><br><br>
+                        Start Time
+                        <select name="start_time" id="time" style="font-family: monospace; width: 100px; height: 50px; border-radius: 20px; background-color: yellowgreen;" required>
+                            <option value="12:00am">12:00am</option>
+                            <option value="1:00am">1:00am</option>
+                            <option value="2:00am">2:00am</option>
+                            <option value="3:00am">3:00am</option>
+                            <option value="4:00am">4:00am</option>
+                            <option value="5:00am">5:00am</option>
+                            <option value="6:00am">6:00am</option>
+                            <option value="7:00am">7:00am</option>
+                            <option value="8:00am">8:00am</option>
+                            <option value="9:00am">9:00am</option>
+                            <option value="10:00am">10:00am</option>
+                            <option value="11:00am">11:00am</option>
+                            <option value="12:00pm">12:00pm</option>
+                            <option value="1:00pm">1:00pm</option>
+                            <option value="2:00pm">2:00pm</option>
+                            <option value="3:00pm">3:00pm</option>
+                            <option value="4:00pm">4:00pm</option>
+                            <option value="5:00pm">5:00pm</option>
+                            <option value="6:00pm">6:00pm</option>
+                            <option value="7:00pm">7:00pm</option>
+                            <option value="8:00pm">8:00pm</option>
+                            <option value="9:00pm">9:00pm</option>
+                            <option value="10:00pm">10:00pm</option>
+                            <option value="11:00pm">11:00pm</option>
+                        </select>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+                        &nbsp;End Time
+                        <select name="end_time" id="time" style="font-family: monospace; width: 100px; height: 50px; border-radius: 20px; background-color:#dc3545 " required>
+                            <option value="12:00am">12:00am</option>
+                            <option value="1:00am">1:00am</option>
+                            <option value="2:00am">2:00am</option>
+                            <option value="3:00am">3:00am</option>
+                            <option value="4:00am">4:00am</option>
+                            <option value="5:00am">5:00am</option>
+                            <option value="6:00am">6:00am</option>
+                            <option value="7:00am">7:00am</option>
+                            <option value="8:00am">8:00am</option>
+                            <option value="9:00am">9:00am</option>
+                            <option value="10:00am">10:00am</option>
+                            <option value="11:00am">11:00am</option>
+                            <option value="12:00pm">12:00pm</option>
+                            <option value="1:00pm">1:00pm</option>
+                            <option value="2:00pm">2:00pm</option>
+                            <option value="3:00pm">3:00pm</option>
+                            <option value="4:00pm">4:00pm</option>
+                            <option value="5:00pm">5:00pm</option>
+                            <option value="6:00pm">6:00pm</option>
+                            <option value="7:00pm">7:00pm</option>
+                            <option value="8:00pm">8:00pm</option>
+                            <option value="9:00pm">9:00pm</option>
+                            <option value="10:00pm">10:00pm</option>
+                            <option value="11:00pm">11:00pm</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-image: url(../static/images/8.jpg);
+            height: fit-content;
+            background-size: cover;
+        }
+
+        .container {
+            opacity: 1.0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 24px;
+        }
+
+        p {
+            font-weight: 700;
+            text-align: center;
+            font-size: 40px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+
+        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+
+        .contact-form {
+            background: #fff;
+            margin-top: 10%;
+            margin-bottom: 5%;
+            width: 50%;
+            border-radius: 20px;
+        }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 12%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: 0%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</body>
+
+</html>

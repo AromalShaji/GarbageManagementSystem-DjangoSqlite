@@ -1,0 +1,621 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        {% block title%}
+        {{companydetails.cname}} Job details
+        {% endblock %}
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css.map' %}">
+    <link rel="stylesheet" href="{% static 'css/style.scss' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color:rgb(15, 17, 16);">
+    {% load static %}
+
+    <!-- header section strats -->
+    <header class="header_section">
+        <section>
+            <!-- header section strats -->
+            <header class="header_section">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg custom_nav-container  navbar-dark bg-dark"
+                        style="opacity: 0.9; border-radius: 30px; width: 100%; align-items: center;">
+                        <a class="navbar-brand">
+                            <span class="glow">
+                                &nbsp; Eco-Cycle
+                            </span>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class=""> </span>
+                        </button>
+
+                        <div class="collapse navbar-collapse container-fluid col-sm-18" id="navbarSupportedContent">
+                            <ul class="navbar-nav  mx-auto container-fluid col-sm-20">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'index' %}">Home<span
+                                            class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#about_section layout_padding">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> {{dis}}</a>
+                                </li>
+                                {% if 'organization' in dis.role %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="">PROVIDE JOB OFFER</a>
+                                </li>
+                                {% endif %}
+                                </li>
+                            </ul>
+                            <div class="user_option">
+                                {% if 'id' in request.session %}
+                                <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                                {% else %}
+                                <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <!-- end header section -->
+        </section>
+    </header>
+    <!-- end header section -->
+
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title font-weight-bold">
+                    <div class="container">
+                        {% if msg %}
+                        <h5 style="background-color: red;width: 100%; height: 50px; "><b style="align-items: center;">
+                                <center> {{msg}} !</center>
+                            </b></h5>
+                        {% endif %}
+                        <h1>JOB OFFER <span></span><span>{{companydetails.cname}} </span></h1>
+                    </div>
+                </h3>
+                <div class="row">
+
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <div class="white-box text-center"><br><img src="{{companydetails.cimg.url}}" class="img-fluid">
+                        </div>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="">
+                        <h5 class="box-title mt-2 font-weight-bold text-danger"><b>About {{companydetails.cname}}</b>
+                        </h5><br>
+                        <p>
+                            <b>
+                                {{companydetails.cname}} provide services to the customer on area
+                                {{companydetails.carea}}.<br><br>
+                                location <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                </svg> :{{companydetails.caddress}} ,
+                                {{companydetails.clocation}} , {{companydetails.cpincode}}<br><br>
+                                For any Additional queries contact us :<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-telephone-fill"
+                                    viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                </svg> : {{companydetails.cphone}} ,<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-envelope-at-fill"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z" />
+                                    <path
+                                        d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z" />
+                                </svg> : {{companydetails.cemail}}<br>
+                            </b>
+                        </p>
+                        <div class="card-body">
+                            <h5 class="box-title mt-2 font-weight-bold text-danger"><b>Job Offer</b></h5>
+                            <table class="table table-striped align-middle mb-0 bg-dark"
+                                style="padding: 20%; border: #000; width: 100%;">
+                                <p>
+                                    <b>
+                                        <thead style="color: #ffffff;">
+                                            <tr>
+                                                <th>Number of vacancy</th>
+                                                <th>{{job_details.vacancy}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Job Type </th>
+                                                <th>Driver</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Salary</th>
+                                                <th>{{job_details.salary}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Shift Time</th>
+                                                <th>{{job_details.start_time}}-{{job_details.end_time}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>{{job_details.description}}</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Areas That Company mainly focus on</th>
+                                                <th>{{companydetails.carea}}</th>
+                                            </tr>
+                                        </thead>
+                                    </b>
+                                </p>
+                            </table>
+                            {% if 'company' in dis.role %}
+                            &nbsp;
+                            {% elif 'customer' in dis.role %}
+                            <form method="post" action="{%url 'applicationjobdriverpage' job_details.id%}">
+                                {%csrf_token%}
+                                <button type="submit" href="" class="glow-on-hover" style="height: 50px;">Register Now
+                                </button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'signin' %}">
+                                {% csrf_token %}
+                                <button class="glow-on-hover" type="submit">Apply Now</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h3 class="card-title font-weight-bold">Rating</h3>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Comment</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rating-table">
+                            {% for i in rating %}
+                            <tr>
+                                <td>{{i.userid}}</td>
+                                <td>{{i.cmt}}</td>
+                                <td><span class="fa fa-star checked" style=" color: orange;"></span>{{i.rate}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $("#rating-table tr:odd").addClass("table-light");
+                            $("#rating-table tr:even").addClass("table-dark");
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% include 'footerbar.html' %}
+    <script src="{% static 'js/bootstrap.js' %}">
+    </script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    
+</body>
+<style>
+    body {
+        background-image: url(../static/images/profile.jpg);
+        margin-top: 20px;
+        background-size: cover;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap");
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* btn */
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+    /* end btn */
+
+
+    @keyframes mygradient {
+        0% {
+            background-position: 0%
+        }
+
+        100% {
+            background-position: 100%
+        }
+    }
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        50% {
+            transform: rotate(90deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    #wave {
+        height: 100%;
+        overflow: hidden
+    }
+
+    #wave:before {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(0, 0, 0, .375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s ease-in-out infinite;
+        animation-delay: -3s
+    }
+
+    #wave:after {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(0, 0, 0, .375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s linear infinite
+    }
+
+
+
+    h1 {
+        color: #484848;
+        font-size: 50px;
+        font-weight: bold;
+        font-family: monospace;
+        letter-spacing: 7px;
+        cursor: pointer
+    }
+
+    h1 span {
+        transition: .5s linear
+    }
+
+    h1:hover span:nth-child(1) {
+        margin-right: 5px
+    }
+
+    h1:hover span:nth-child(1):after {
+        content: "'";
+    }
+
+    h1:hover span:nth-child(2) {
+        margin-left: 30px
+    }
+
+    h1:hover span {
+        color: #fff;
+        text-shadow: 0 0 10px #fff,
+            0 0 20px #fff,
+            0 0 40px #fff;
+    }
+
+    /*made with ❤, by qpi65*/
+    .container {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+    }
+
+    .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .title h1 {
+        font-size: 25vmin;
+        font-weight: 900;
+        font-family: "Montserrat", sans-serif;
+        color: black;
+    }
+
+    .ghost {
+        width: 8vmin;
+        height: 12vmin;
+        background-color: var(--white);
+        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
+        background-image: radial-gradient(ellipse at 35% 40%, #000 8%, transparent 0%),
+            radial-gradient(ellipse at 65% 40%, #000 8%, transparent 0%),
+            radial-gradient(ellipse at 50% 60%, #000 8%, transparent 0%);
+        border-radius: 100% / 70% 70% 0% 0%;
+        transform: translateX(100em) rotateZ(-90deg);
+        position: relative;
+        opacity: 0.9;
+        mix-blend-mode: exclusion;
+        animation: ghostMove 4s ease-out infinite;
+    }
+
+    @keyframes ghostMove {
+        0% {
+            transform: translateX(30em) rotateZ(-90deg);
+        }
+
+        100% {
+            transform: translateX(-35em) rotateZ(-90deg);
+        }
+    }
+
+    .ghost div {
+        position: absolute;
+        width: 20%;
+        background-color: var(--white);
+        background-image: url("https://www.transparenttextures.com/patterns/concrete-wall.png");
+    }
+
+    .ghost div:nth-of-type(1) {
+        height: 7vmin;
+        left: 0;
+        bottom: -6vmin;
+        border-radius: 100% / 0% 0% 50% 50%;
+    }
+
+    .ghost div:nth-of-type(2),
+    .ghost div:nth-of-type(4) {
+        height: 4vmin;
+        left: 20%;
+        bottom: -3vmin;
+        border-radius: 100% / 50% 50% 0% 0%;
+        background-color: transparent;
+    }
+
+    .ghost div:nth-of-type(3) {
+        height: 4vmin;
+        left: 40%;
+        bottom: -3.95vmin;
+        border-radius: 100% / 0% 0% 60% 60%;
+        background-color: var(--white);
+    }
+
+    .ghost div:nth-of-type(4) {
+        left: 60%;
+    }
+
+    .ghost div:nth-of-type(5) {
+        height: 3vmin;
+        left: 80%;
+        bottom: -2.9vmin;
+        border-radius: 100% / 0% 0% 70% 70%;
+        background-color: var(--white);
+    }
+
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa !important
+    }
+
+    .table-product td {
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299 !important;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+    .rate:not(:checked)>input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked)>label {
+        float: right;
+        width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked)>label:before {
+        content: '★ ';
+    }
+
+    .rate>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked)>label:hover,
+    .rate:not(:checked)>label:hover~label {
+        color: #deb217;
+    }
+
+    .rate>input:checked+label:hover,
+    .rate>input:checked+label:hover~label,
+    .rate>input:checked~label:hover,
+    .rate>input:checked~label:hover~label,
+    .rate>label:hover~input:checked~label {
+        color: #c59b08;
+    }
+
+    /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+    body {
+        background-color: #edf1f5;
+        margin-top: 20px;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 0 solid transparent;
+        border-radius: 0;
+    }
+
+    .card .card-subtitle {
+        font-weight: 300;
+        margin-bottom: 10px;
+        color: #8898aa;
+    }
+
+    .table-product.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f3f8fa !important
+    }
+
+    .table-product td {
+        border-top: 0px solid #dee2e6 !important;
+        color: #728299 !important;
+    }
+</style>
+
+</html>

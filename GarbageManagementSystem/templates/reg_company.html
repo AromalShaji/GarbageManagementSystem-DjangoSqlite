@@ -1,0 +1,377 @@
+{% load static %}
+<html>
+
+<head>
+    <title>
+        {% block title%} Company Registration {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color: #ffffff; background-size: cover; opacity: 0.9;">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="{% static '/images/background.jpg' %}" alt="rocket_contact" />
+        </div>
+        <form method="POST" action="{%url 'companyreg' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <b><h5 class="animate-charcter" style="text-align: center;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;
+                Company Details</h5></b><br><br>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="cname" class="form-control" placeholder="Company Name*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="cmail" class="form-control" placeholder="Company Email*"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="cphone" class="form-control" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" placeholder="Phone*:+91 12XXX" value=""
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="caddress" class="form-control" placeholder="Company Address*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="clocation" class="form-control" placeholder="Company Location*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cpincode" class="form-control" placeholder=" Pincode*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="cpassword" class="form-control" placeholder="Password*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="choose-file" class="label-title">
+                            <b class="font-weight-bold">Upload Image*</b>
+                        </label>
+                        <input type="file" id='image' name="image" style="font-family: monospace;" required="required" >
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Submit" required="required" />
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b class="font-weight-bold">Available Features *</b>
+                        <div>
+                            <br>
+                            <small>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Organic Waste" id="Organic Waste"
+                                        name="featchk" for="Organic Waste" class="featchk">Organic Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Medical Waste" id="Medical Waste"
+                                        name="featchk" for="Medical Waste" class="featchk">Medical Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Municipal Solid Waste"
+                                        id="Municipal Solid Waste" name="featchk" for="Municipal Solid Waste"
+                                        class="featchk">Municipal Solid Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Recyclable Waste" id="Recyclable Waste"
+                                        name="featchk" for="Recyclable Waste" class="featchk">Recyclable
+                                    Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Agricultural Waste"
+                                        id="Agricultural Waste" name="featchk" for="Agricultural Waste"
+                                        class="featchk">Agricultural Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Automotive Waste" id="Automotive Waste"
+                                        name="featchk" for="Automotive Waste" class="featchk">Automotive
+                                    Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Textile Waste" id="Textile Waste"
+                                        name="featchk" for="Textile Waste" class="featchk">Industrial Waste</label><br>
+                                <label>&nbsp;&nbsp;<input type="checkbox" value="Textile Waste" id="Textile Waste"
+                                        name="featchk" for="Textile Waste" class="featchk">Textile Waste</label><br>
+                                <input type="hidden" name="feat" id="txtvalues">
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Service Available Areas*</b>
+                        <input type="text" name="carea" class="form-control" placeholder="Places*"
+                            required="required" style="font-family: monospace;"/>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Service Rate*</b>
+                        <input type="text" name="crate" class="form-control" placeholder="Rate*"
+                            required="required"style="font-family: monospace;" />
+                    </div>
+                </div>
+            </div><br><br><br>
+            <center><h6>Already have an Account <a class="text-primary" href="{% url 'login' %}">Login</a></h5></small>
+        </form>
+    </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-image: url(../static/images/background5.jpg);
+            background-size: cover;
+            opacity: 0.9;
+        }
+
+        .contact-form {
+            background: #e6e6e6;
+            margin-top: 10%;
+            margin-bottom: 5%;
+            width: 70%;
+            border-radius: 20px;
+            height: 120%;
+        }
+
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 14%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+
+        .animate-charcter {
+            text-transform: uppercase;
+            background-image: linear-gradient(-225deg,
+                    #231557 0%,
+                    #44107a 29%,
+                    #ff1361 67%,
+                    #fff800 100%);
+            background-size: auto auto;
+            background-clip: border-box;
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textclip 2s linear infinite;
+            display: inline-block;
+            font-size: 33px;
+            text-align: center;
+        }
+
+        @keyframes textclip {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 12px;
+        }
+
+        .pp {
+            font-weight: 700;
+            text-align: center;
+            font-size: 12px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+        .words {
+            color: #ffffff;
+            font-size: 0;
+            line-height: 1.5;
+        }
+
+        .words span {
+            font-size: 5rem;
+            display: inline-block;
+            animation: move 3s ease-in-out infinite;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translate(-30%, 0);
+            }
+
+            50% {
+                text-shadow: 0 25px 50px rgba(0, 0, 0, 0.75);
+            }
+
+            100% {
+                transform: translate(30%, 0);
+            }
+        }
+
+        .words span:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .words span:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .words span:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        .words span:nth-child(5) {
+            animation-delay: 2s;
+        }
+
+        .words span:nth-child(6) {
+            animation-delay: 2.5s;
+        }
+
+        .words span:nth-child(7) {
+            animation-delay: 3s;
+        }
+
+        h1 {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            margin: 20px 0 30px;
+        }
+
+        span {
+            font-size: 12px;
+        }
+
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
+
+        input.submit {
+            border-radius: 20px;
+            border: 1px solid #02864f;
+            background-color: #19a56b;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #02864f;
+            background-color: #19a56b;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        button.ghost {
+            background-color: transparent;
+            border-color: #FFFFFF;
+        }
+    </style>
+
+</body>
+
+</html>

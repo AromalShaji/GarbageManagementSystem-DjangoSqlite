@@ -1,0 +1,186 @@
+{% load static %}
+<html>
+
+<head>
+    <title>
+        {% block title%} ADD DUMBSTER {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+    href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color: #222; height: fit-content; opacity: 1;">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="{% static '/images/dumbsterbg.jpg' %}" alt="rocket_contact" />
+        </div>
+        <form method="POST" action="{% url 'adddumbster' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>ADD DUMPSTER</h3>
+            <h3>
+                <p><br><a href="https://codepen.io/grohit/">Provide dumpster for renting</a></p>
+            </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <input type="text" name="number" class="form-control" placeholder="Number of Dumpster*"
+                                required="required" style="font-family: monospace;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="dimension" class="form-control" placeholder="Dimensions" rows="3"
+                            style="font-family: monospace;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="rate" class="form-control" placeholder="Rate of Single Dumpster" rows="3"
+                            style="font-family: monospace;"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Submit" href="{% url 'adddumbster' %}"
+                            required="required" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b class="font-weight-bold">Size *</b>
+                        <div>
+                            <input type="text" name="size" class="form-control" placeholder="Available Sizes*"
+                                required="required" style="font-family: monospace;" />
+                        </div>
+                        <small class="text-danger"><b>Note: Multiple value should separated by comma.</b></small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-image: url(../static/images/6.jpg);
+            height: fit-content;
+            background-size: cover;
+        }
+
+        .container {
+            opacity: 1.0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 24px;
+        }
+
+        p {
+            font-weight: 700;
+            text-align: center;
+            font-size: 40px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+
+        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+
+        .contact-form {
+            background: #fff;
+            margin-top: 10%;
+            margin-bottom: 5%;
+            width: 60%;
+            border-radius: 20px;
+            opacity: 0.9;
+        }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 14%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</body>
+
+</html>

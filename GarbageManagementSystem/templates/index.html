@@ -1,0 +1,1656 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+Home
+{% endblock %}
+
+{% block content%}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #666;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+<div class="hero_area">
+    <div class="bg-box">
+        <img src="{% static '/images/12.jpg' %}" />
+    </div>
+
+    <section>
+        <!-- header section strats -->
+        <header class="header_section" style="opacity: 2;">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg custom_nav-container navbar-dark bg-dark col-md-20"
+                    style="opacity: 0.9; border-radius: 30px; width: 100%; align-items: center; ">
+                    <a class="navbar-brand">
+                        <span class="glow">
+                            &nbsp; <b>Eco-Cycle</b>
+                        </span>
+                    </a>
+
+                    <button class="navbar-toggler " type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class=""> </span>
+                    </button>
+
+                    <div class="collapse navbar-collapse container-fluid col-md-18 " id="navbarSupportedContent">
+                        <ul class="navbar-nav  mx-auto container-fluid col-sm-20 " style="align-items: center;">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="">Home<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#about_section layout_padding">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="#food_section layout_padding-bottom">COMPANY</a>
+                            </li>
+                            {% if 'customer' in dis.role %}
+                            {% if cnt > 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link " href="{% url 'tracking_page' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-truck" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                    </svg>
+                                    Track
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% endif %}
+                            {% if 'company' in dis.role %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-hidden="true" href="" data-toggle="collapse"
+                                    data-target="#jobofferlist"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-grid-3x3-gap-fill"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V7zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-2zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2z" />
+                                    </svg>
+                                    More
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+
+                        <div class="user_option">
+                            {% if 'id' in request.session %}
+                            <a href="{% url 'profile' %}" class="user_link">
+                                <button class="fa  fa-user btn-warning" title="profile" aria-hidden="true" href=""
+                                    style="border-radius: 90%; font-size: 150%; width: 40px; height: 40px;"></button>
+                            </a>
+
+                            <a class="user_link">
+                                <button class="btn-warning" title="Notification" aria-hidden="true" href=""
+                                    data-toggle="collapse" data-target="#myList"
+                                    style="border-radius: 170%; height: 40px; font-size: 150%; width: 40px; ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
+                                        class="bi bi-bell" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                                    </svg>
+                                </button>
+                            </a>
+                            {% endif %}
+
+                            {% if 'id' in request.session %}
+                            <a href="{% url 'lgout' %}" class="order_online">Logout</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="order_online">Login/Signup</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- job list  start-->
+        <ul class="list-group collapse align-items-end " id="jobofferlist" style="width: 1200px; align-items: center;">
+            <li class="list-group-item text-light bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                    href="{% url 'regjobdriverpage' %}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z" />
+                    </svg> PROVIDE JOB OFFER FOR DRIVER</a>
+            </li>
+            <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                    href="{% url 'regjobemployeepage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-file-plus-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0z" />
+                    </svg> PROVIDE JOB OFFER FOR EMPLOYEE</a>
+            </li>
+            <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                    href="{% url 'adddumbsterpage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg> PROVIDE DUMBSTER</a>
+            </li>
+            <li class="list-group-item primary bg-dark" style="color: #002bff; width: 480px;"><a class="text-light"
+                    href="{% url 'add_employeepage' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                        <path
+                            d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path
+                            d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                    </svg> ADD EMPLOYEE</a>
+            </li>
+        </ul>
+        <!-- job list end -->
+
+        <!-- customer notification list  start-->
+
+        <!-- Driver job application submit -->
+        {% if 'customer' in dis.role %}
+        <ul class="list-group collapse align-items-end" id="myList"
+            style="position: relative; top: 5px; right: 60px; align-items: center; height: fit-content;">
+
+            {% for i in driver_job_applied %}
+            <li class="list-group-item primary" style="color: #002bff; width: 480px;"><a
+                    href="{% url 'jobdriverdetails_notification' i.id %}"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </svg>
+                    Driver Job Application submitted to
+                    {{i.companyid}}</a>
+            </li>
+            {% endfor %}
+            <!-- Driver job application submit end-->
+
+            <!-- Employee job application submit -->
+            {% for i in employee_job_applied %}
+            <li class="list-group-item primary" style="color: #002bff; width: 480px;"><a
+                    href="{% url 'jobemployeedetails_notification' i.id%}"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    </svg> Employee Job Application submitted
+                    to
+                    {{i.companyid}}</a>
+            </li>
+            {% endfor %}
+            <!-- Employee job application submit end -->
+
+            <!-- Application accepted by company  -->
+            {%for i in req_accepted%}
+            <li class="list-group-item text-success" style="color: #00ee34; width: 480px; height: 128px;"><a
+                    class="text-success" style="color: #00ee34;"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-person-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    </svg> {{i.companyid}} Selected You as {{i.role}}</a><br>
+                <small class="text-secondary">*Once you Accept Your Account will Switch to {{i.role}}</small><br>
+
+                <!--Accept Button trigger modal start-->
+                <button type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#exampleModal">Accept</button>
+                <!--Accept Button trigger modal end-->
+
+                <!--accept button trigger start -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary" id="exampleModalLabel"><b>Accept the Offer From
+                                        {{i.companyid}}</b><br> <small class="text-secondary">*Automatically switch your
+                                        account</small></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body "><small class="text-secondary">
+                                    Once you accept the offer, your account will switch to {{i.role}} account. Your can
+                                    login using your current user id and password, But the interface will be of
+                                    {{i.role}}.
+                                    In any case you need to change your account contect your company or
+                                    Administrator.<br>For any query Contact</small> <small class="text-primary
+                                    "><a
+                                        href="{% url 'companydetails_from_accept_notification' i.companyid %}">{{i.companyid}}.</a></small>
+                            </div>
+                            <div class="modal-footer" style="height: 70px; padding-top: 0px;">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="{% url 'offer_accept' i.companyid i.role %}" method="post">
+                                    {%csrf_token%}
+                                    <button type="submit" class="btn btn-success"
+                                        href="{% url 'offer_accept' i.companyid i.role %}">Accept</button>
+                                </form>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- trigger end -->
+
+                &nbsp;&nbsp;&nbsp;
+                <!--Reject Button trigger modal start-->
+                <button type="button" class="btn btn-danger" data-toggle="modal"
+                    data-target="#exampleModal1">Reject</button>
+                <!--Reject Button trigger modal end-->
+
+                <!--accept button trigger start -->
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-danger" id="exampleModalLabel"><b>Reject the Offer From
+                                        {{i.companyid}}</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body "><small class="text-secondary">
+                                    Are you Sure that you want to reject the offer for {{i.companyid}}. Once you reject
+                                    the offer, Your application for the job {{i.role}} will be canceled<br>For any query
+                                    Contact</small> <small class="text-primary
+                                    "><a
+                                        href="{% url 'companydetails_from_accept_notification' i.companyid %}">{{i.companyid}}.</a></small>
+                            </div>
+                            <div class="modal-footer" style="height: 70px; padding-top: 0px;">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="{% url 'offer_deny' i.companyid i.role %}" method="post">
+                                    {%csrf_token%}
+                                    <button type="submit" class="btn btn-danger"
+                                        href="{% url 'offer_deny' i.companyid i.role %}">Okay</button>
+                                </form>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- trigger end -->
+                <br>
+            </li>
+            {% endfor %}
+            <!-- Application accepted by company end -->
+
+            <!-- Service Booked -->
+            {% for i in service_booked %}
+            <li class="list-group-item bg-success" style=" width: 480px; background-color: #fbfaf7;"><a
+                    class="text-light" href="{% url 'companydetails_from_accept_notification' i.companyid %}"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg> {{i.companyid}} Service Booked </a><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+            </li>
+            {% endfor %}
+            <!-- Service Booked end-->
+
+            <!-- dumbster rented -->
+            {%for i in dumbster_booked %}
+            <li class="list-group-item bg-info" style="color: #a04d04; width: 480px; background-color: #fbfaf7;"><a
+                    class="text-light" href="{% url 'companydetails_from_accept_notification' i.companyid %}"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg> Dumbster is rented from {{i.companyid}} </a><svg xmlns="http://www.w3.org/2000/svg"
+                    width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+            </li>
+            {% endfor %}
+            <!-- dumbster rented end -->
+
+        </ul>
+        {% endif %}
+        <!-- customer notification list end -->
+
+        <!--company notification list  start-->
+        {% if 'company' in dis.role %}
+        <ul class="list-group collapse align-items-end" id="myList"
+            style="position: relative; top: 5px; right: 60px; align-items: center; height: fit-content;">
+
+            {% for i in driver_job_applied %}
+            <li class="list-group-item primary" style="color: #002bff; width: 480px;"><a
+                    href="{% url 'profile_jobapplications' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                    </svg>
+                    {{i.userid}} Applied For Driver job</a>
+            </li>
+            {% endfor %}
+
+            {% for i in employee_job_applied %}
+            <li class="list-group-item primary" style="color: #002bff; width: 480px;"><a
+                    href="{% url 'profile_jobapplications'%}"> <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z" />
+                    </svg>
+                    {{i.userid}} Applied for Worker job</a></li>
+            {% endfor %}
+
+            {% for i in offer_accept %}
+            <li class="list-group-item bg-success" style="color: #002bff; width: 480px;"><a class="text-light"
+                    href="{% url 'employee_manager'%}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path
+                            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+                    </svg>
+                    {{i.userid}} Joined the company</a></li>
+            {% endfor %}
+
+            {% for i in dumbster_booked %}
+            {% if i.date >= today %}
+            <li class="list-group-item bg-warning" style="color: #a04d04; width: 480px; background-color: #fbfaf7;"><a
+                    class="text-dark" href="{% url 'profile_dumbstermanager' %}"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                    </svg>{{i.userid}} Rent Dumbster</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% for i in service_booked %}
+            {% if i.date >= today %}
+            <li class="list-group-item bg-info" style="color: #a04d04; width: 480px; background-color: #fbfaf7;"><a
+                    class="text-dark" href="{% url 'profile_bookingdetails' %}"><svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                        <path
+                            d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                    </svg> {{i.userid}} Booked Service</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% for i in leave_status %}
+            {% if i.approved == 0 %}
+            <li class="list-group-item bg-dark text-light"
+                style="color: #a04d04; width: 480px; background-color: #fbfaf7;"><a class="text-light"
+                    href="{% url 'employee_manager' %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                        <path
+                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                    </svg> {{i.userid.userid}} apply for leave</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+        </ul>
+        {% endif %}
+        <!-- company notification list end -->
+    </section>
+    <div class="col-md-12">
+        <a href="{% url 'help_page' %}" class="" id="help" class="help-section" title="HELP" alt="Hand sign"
+            style="width: 50px; height: 50px; border-radius: 100px; background-color:rgb(255, 218, 6); margin-top: 630px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-recycle"
+                viewBox="0 0 16 16" style="color: #000000; height:30px; width:30px">
+                <path
+                    d="M9.302 1.256a1.5 1.5 0 0 0-2.604 0l-1.704 2.98a.5.5 0 0 0 .869.497l1.703-2.981a.5.5 0 0 1 .868 0l2.54 4.444-1.256-.337a.5.5 0 1 0-.26.966l2.415.647a.5.5 0 0 0 .613-.353l.647-2.415a.5.5 0 1 0-.966-.259l-.333 1.242-2.532-4.431zM2.973 7.773l-1.255.337a.5.5 0 1 1-.26-.966l2.416-.647a.5.5 0 0 1 .612.353l.647 2.415a.5.5 0 0 1-.966.259l-.333-1.242-2.545 4.454a.5.5 0 0 0 .434.748H5a.5.5 0 0 1 0 1H1.723A1.5 1.5 0 0 1 .421 12.24l2.552-4.467zm10.89 1.463a.5.5 0 1 0-.868.496l1.716 3.004a.5.5 0 0 1-.434.748h-5.57l.647-.646a.5.5 0 1 0-.708-.707l-1.5 1.5a.498.498 0 0 0 0 .707l1.5 1.5a.5.5 0 1 0 .708-.707l-.647-.647h5.57a1.5 1.5 0 0 0 1.302-2.244l-1.716-3.004z" />
+            </svg>
+        </a>
+    </div>
+    <script>
+        // Select the bot element
+        const bot = document.querySelector('#help');
+
+        // Define an array of messages
+        const messages = [
+            'Need Help!'
+        ];
+
+        // Set interval for displaying message
+        setInterval(() => {
+            // Select a random message from the array
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+
+            // Create a new element for displaying the message
+            const message = document.createElement('div');
+            message.setAttribute('id', 'bot-message');
+            message.textContent = randomMessage;
+
+            // Add the message element to the bot element
+            bot.appendChild(message);
+
+            // Remove the message element after 2 seconds
+            setTimeout(() => {
+                bot.removeChild(message);
+            }, 2000);
+        }, 5000);
+    </script>
+
+    <!-- slider section -->
+    <section class="slider_section ">
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-7 col-lg-6 ">
+                                <div class="detail-box">
+                                    <h1>
+                                        <h1 class="glow"><br><br><br>
+                                            <div class="words word-1">
+                                                <span>Welcome</span>
+                                            </div>
+                                            {% if 'id' in request.session %}
+                                            <div class="words word-3">
+                                                <span style="text-transform:uppercase;">{{dis}}</span>
+                                            </div>
+                                            {% endif %}
+                                        </h1>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+</div>
+<marquee>
+    <b class="text-warning" loop="-1">Waste management is a critical aspect of maintaining public health and preserving
+        the
+        environment. Effective waste management practices ensure that waste materials are properly collected,
+        transported, treated, and disposed of in a manner that minimizes risks to public health and the environment.
+
+        One of the most important aspects of waste management in public is the proper disposal of waste materials. This
+        includes ensuring that waste is collected and transported in a manner that minimizes its impact on the
+        environment and public health. This may involve the use of waste segregation methods to separate recyclable
+        materials from non-recyclable materials, as well as the use of appropriate disposal methods such as landfill
+        sites, incineration, or composting.
+
+        Another important aspect of waste management in public is the promotion of waste reduction and recycling. This
+        involves encouraging individuals and organizations to adopt practices that reduce waste generation and increase
+        the reuse and recycling of materials. For example, individuals can reduce waste by using reusable bags and
+        containers, while organizations can implement recycling programs and use recycled materials in their products
+        and processes.
+
+        Effective waste management in public also involves education and awareness-raising efforts. This includes
+        educating individuals and communities on the importance of proper waste disposal and recycling, as well as
+        providing information on the potential risks associated with improper waste disposal. By increasing public
+        awareness and knowledge of waste
+    </b>
+</marquee>
+<!-- search section -->
+<br>
+<ul class="filters_menu">
+    <li style="color: rgb(247, 247, 247);">
+        <div class="heading_container heading_center">
+            <b class="font-weight-bold">
+                <span class="glo" style="color: rgba(255, 138, 49, 0.718);">
+                    <h2>
+                        Search
+                    </h2>
+                </span>
+            </b>
+        </div>
+    </li>
+    <li class="active" data-filter="*" style="color: rgb(255, 254, 254);">
+        <form method="post" action="{% url 'search' %}">
+            {% csrf_token %}
+            <div class="container h-100 ">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="searchbar">
+                        <input class="search_input" type="text" name="data" placeholder="Search" required
+                            style="border-radius: 20px; background-color : #353b48;" />
+                        <button class="search_icon fa fa-search"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </li>
+</ul>
+<br><br><br>
+<!-- end search -->
+<div class="boxes">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<br><br>
+<!-- company section -->
+<section class="food_section layout_padding-bottom" id="food_section layout_padding-bottom">
+    <div class="container">
+        <div class="boxes">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="heading_container heading_center">
+            <h2>
+                <b class="font-weight-bold">
+                    <span class="glo">
+                        Waste Collecting Company
+                        <div class="boxes">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </span>
+                </b>
+            </h2>
+        </div>
+        <br><br>
+        <div class="filters-content text-center">
+            <div class="row grid" style="width: 1450px;">
+                {% for i in company_details %}
+                <div class="col-sm-6 col-lg-3 all pizza">
+                    <div class="box w-100 mx-auto" style="max-width: 300px;">
+                        <div class="img-box">
+                            <img src="{{i.cimg.url}}" alt="" />
+                        </div>
+                        <div class="detail-box">
+                            <b>{{i.cname}}</b>
+                            <p>
+                            </p>
+                            <div class="options">
+                                <small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-envelope-at-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z" />
+                                        <path
+                                            d="M15.834 12.244c0 1.168-.577 2.025-1.587 2.025-.503 0-1.002-.228-1.12-.648h-.043c-.118.416-.543.643-1.015.643-.77 0-1.259-.542-1.259-1.434v-.529c0-.844.481-1.4 1.26-1.4.585 0 .87.333.953.63h.03v-.568h.905v2.19c0 .272.18.42.411.42.315 0 .639-.415.639-1.39v-.118c0-1.277-.95-2.326-2.484-2.326h-.04c-1.582 0-2.64 1.067-2.64 2.724v.157c0 1.867 1.237 2.654 2.57 2.654h.045c.507 0 .935-.07 1.18-.18v.731c-.219.1-.643.175-1.237.175h-.044C10.438 16 9 14.82 9 12.646v-.214C9 10.36 10.421 9 12.485 9h.035c2.12 0 3.314 1.43 3.314 3.034v.21Zm-4.04.21v.227c0 .586.227.8.581.8.31 0 .564-.17.564-.743v-.367c0-.516-.275-.708-.572-.708-.346 0-.573.245-.573.791Z" />
+                                    </svg>
+                                    {{i.cemail}}</small><br>
+                            </div>
+                            <form method="post" action="{% url 'companydetails' i.id %}">
+                                {%csrf_token%}
+                                <button href="{% url 'companydetails' i.id %}" class="glow-on-hover" value="View"
+                                    style="background-color: rgba(255, 138, 49, 0.718);">
+                                    <small>View</small>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end company section -->
+<br><br><br>
+<!-- about section -->
+<marquee style="animation: infinite;">
+    <b class="text-warning" loop="-1">Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle</b>
+</marquee>
+<section class="about_section layout_padding" id="about_section layout_padding">
+    <div class="container ">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="img-box">
+                    <img src="{% static '/images/ab.jpeg' %}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <div class="pp" style="margin-left: 70px;">
+                            <p>Recycle Your Trash<br>or Trash Your Earth</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<marquee>
+    <b class="text-warning" loop="-1">Waste management is a critical aspect of maintaining public health and preserving
+        the
+        environment. Effective waste management practices ensure that waste materials are properly collected,
+        transported, treated, and disposed of in a manner that minimizes risks to public health and the environment.
+
+        One of the most important aspects of waste management in public is the proper disposal of waste materials. This
+        includes ensuring that waste is collected and transported in a manner that minimizes its impact on the
+        environment and public health. This may involve the use of waste segregation methods to separate recyclable
+        materials from non-recyclable materials, as well as the use of appropriate disposal methods such as landfill
+        sites, incineration, or composting.
+
+        Another important aspect of waste management in public is the promotion of waste reduction and recycling. This
+        involves encouraging individuals and organizations to adopt practices that reduce waste generation and increase
+        the reuse and recycling of materials. For example, individuals can reduce waste by using reusable bags and
+        containers, while organizations can implement recycling programs and use recycled materials in their products
+        and processes.
+
+        Effective waste management in public also involves education and awareness-raising efforts. This includes
+        educating individuals and communities on the importance of proper waste disposal and recycling, as well as
+        providing information on the potential risks associated with improper waste disposal. By increasing public
+        awareness and knowledge of waste
+    </b>
+</marquee>
+<!-- end about section -->
+<br><br><br><br>
+<!-- dumpster details -->
+<section class="food_section layout_padding-bottom" id="food_section layout_padding-bottom">
+    <div class="container">
+        <div class="boxes">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="heading_container heading_center">
+            <h2>
+                <b class="font-weight-bold">
+                    <span class="glo">
+                        Dumpster Rental
+                    </span>
+                    <div class="boxes">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </b>
+            </h2>
+        </div>
+        <div class="boxes">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br><br>
+        <div class="filters-content text-center">
+            <div class="row grid" style="width: 1450px;">
+                {% for i in dumbster_details %}
+                {% if i.number >= '1' %}
+                <div class="col-sm-6 col-lg-5 all pizza">
+                    <div class="box">
+                        <div class="img-box">
+                            <img src="{% static '/images/dumbsterbg.jpg' %}"
+                                class="d-flex justify-content-center align-items-center"
+                                style="width: 400px; height: 500px;">
+                        </div>
+                        <div class="detail-box">
+                            <h3 style="font-family: monospace;"><b>{{i.companyid}}<br>
+                                    {% if i.number >= '4' %}
+                                    <span class="badge"
+                                        style="background-color: rgb(11, 140, 39); color: white; text-align: center; border-radius: 10px; height: 30px;">Only
+                                        {{i.number}} dumbster left</span><br>
+                                    {% else %}
+                                    <span class="badge"
+                                        style="background-color: rgb(129, 11, 11); color: white; text-align: center; border-radius: 10px;">Only
+                                        {{i.number}} dumbster left</span><br>
+                                    {% endif %}
+                                </b></h3>
+                            <p>
+                                Rate : {{i.rate}}
+                            </p>
+                            <div class="options" style="margin-left: 190px;">
+                                <small>
+                                </small><br>
+                            </div>
+                            <form method="post" action="{% url 'companydetails_from_accept_notification' i.companyid%}">
+                                {%csrf_token%}
+                                <button href="{% url 'companydetails_from_accept_notification' i.companyid%}"
+                                    class="glow-on-hover" value="View" style="width: 160px; height: 30px;">
+                                    <small>Rent</small>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- dumpster details end -->
+<marquee>
+    <b class="text-warning" loop="-1">Waste management is a critical aspect of maintaining public health and preserving
+        the
+        environment. Effective waste management practices ensure that waste materials are properly collected,
+        transported, treated, and disposed of in a manner that minimizes risks to public health and the environment.
+
+        One of the most important aspects of waste management in public is the proper disposal of waste materials. This
+        includes ensuring that waste is collected and transported in a manner that minimizes its impact on the
+        environment and public health. This may involve the use of waste segregation methods to separate recyclable
+        materials from non-recyclable materials, as well as the use of appropriate disposal methods such as landfill
+        sites, incineration, or composting.
+
+        Another important aspect of waste management in public is the promotion of waste reduction and recycling. This
+        involves encouraging individuals and organizations to adopt practices that reduce waste generation and increase
+        the reuse and recycling of materials. For example, individuals can reduce waste by using reusable bags and
+        containers, while organizations can implement recycling programs and use recycled materials in their products
+        and processes.
+
+        Effective waste management in public also involves education and awareness-raising efforts. This includes
+        educating individuals and communities on the importance of proper waste disposal and recycling, as well as
+        providing information on the potential risks associated with improper waste disposal. By increasing public
+        awareness and knowledge of waste
+    </b>
+</marquee>
+<section class="about_section layout_padding" id="about_section layout_padding">
+    <div class="container ">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="detail-box">
+                    <div class="heading_container">
+                        <small>
+                            <div class="pp" style="margin-left: 170px;">
+                                <p>Rethink Your<br>Bulk Waste</p><br><br>
+                            </div>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="img-box">
+                    <img src="{% static '/images/background.jpg' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<marquee>
+    <b class="text-warning">Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle
+        Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle Eco-Cycle</b>
+</marquee>
+<br><br>
+<!-- job offer -->
+<section class="offer_section layout_padding-bottom" id="offer_section layout_padding-bottom" data-spy="scroll"
+    data-offset="50">
+    <div class="offer_container">
+        <div class="container">
+            <div class="boxes">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="heading_container heading_center font-weight-bold">
+                <h2>
+                    <b class="font-weight-bold">
+                        <span class="glo">
+                            Job Offer
+                        </span>
+                        <div class="boxes">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </b>
+                </h2>
+            </div>
+            <!-- driver -->
+            <div id="job-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <center>
+                        {% for i in job_driver %}
+                        {% if i.vacancy > 0 %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="col-lg-8 col-md-10 col-sm-12">
+                                <div class="box bg-dark w-150"
+                                    style="background: linear-gradient(45deg, #000000, #1a3e1b, #4b0892); border-radius: 40px;">
+                                    <div class="img-circle">
+                                        <img src="{% static '/images/wastecollecting.jpg' %}" alt="image">
+                                    </div>
+                                    <div class="detail-box">
+                                        <h5>
+                                            {% if i.vacancy >= 3%}
+                                            <span class="badge badge-success" style="border-radius: 10px;">Only
+                                                {{i.vacancy}}
+                                                vacancy left</span><br>
+                                            {% else %}
+                                            <span class="badge badge-danger" style="border-radius: 10px;">Only
+                                                {{i.vacancy}}
+                                                vacancy
+                                                left</span><br>
+                                            {% endif %}
+                                            Driver for <b>{{i.companyid}}</b>
+                                            <p class="register-now">Register Now</p>
+                                        </h5>
+                                        <h6>
+                                            <small>{{i.salary}}/salary</small> <br>
+                                        </h6>
+                                        <form method="post" action="{% url 'jobdriverdetails' i.id%}">
+                                            {% csrf_token %}
+                                            <button type="submit" href="{% url 'jobdriverdetails' i.id%}"
+                                                class="glow-on-hover">View
+                                                Now</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </center>
+                </div>
+                <a class="carousel-control-prev" href="#job-carousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#job-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!-- end -->
+            <!-- employee -->
+            <div id="employee-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <center>
+                        {% for j in job_employee %}
+                        {% if j.vacancy > 0 %}
+                        <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                            <div class="row grid justify-content-center">
+                                <div class="col-lg-8 col-md-10 col-sm-12">
+                                    <div class="box bg-dark w-150"
+                                        style="background: linear-gradient(45deg, #230261, #384792, #810505); border-radius: 40px;">
+                                        <div class="img-circle">
+                                            <img src="{% static '/images/wastecollecting.jpg' %}" alt="image">
+                                        </div>
+                                        <div class="detail-box">
+                                            <h5>
+                                                {% if j.vacancy >= 3%}
+                                                <span class="badge badge-success" style="border-radius: 10px;">Only
+                                                    {{j.vacancy}} vacancy left</span><br>
+                                                {% else %}
+                                                <span class="badge badge-danger" style="border-radius: 10px;">Only
+                                                    {{j.vacancy}} vacancy left</span><br>
+                                                {% endif %}
+                                                Employee for <b>{{j.companyid}}</b>
+                                                <p class="register-now">Register Now</p>
+                                            </h5>
+                                            <h6>
+                                                <small>{{j.salary}}/salary</small> <br>
+                                            </h6>
+                                            <form method="post" action="{%url 'jobemployeedetails' j.id%}">
+                                                {% csrf_token %}
+                                                <button type="submit" href="{%url 'jobemployeedetails' j.id%}"
+                                                    class="glow-on-hover">View Now</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </center>
+                </div>
+                <a class="carousel-control-prev" href="#employee-carousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#employee-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+</section>
+<!-- end job offer -->
+
+{% include 'footerbar.html' %}
+<!-- list view -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- end list -->
+<!-- jQery -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+<!-- scroll -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<!-- scroll end -->
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script>
+<script>
+    window.onscroll = function () { myFunction() };
+
+    function myFunction() {
+        if (window.pageYOffset > 0) {
+            document.querySelector(".sticky").style.display = "none";
+        } else {
+            document.querySelector(".sticky").style.display = "block";
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        document.getElementById("heart").onclick = function () {
+            document.querySelector(".fa-gratipay").style.color = "#E74C3C";
+        };
+    });
+</script>
+<script>
+    document.getElementById("offer_container").addEventListener("scroll", fun);
+    function fun() {
+        document.getElementById("offer_container").style.color = "red";
+        document.getElementById("offer_container").style.background = "lightgreen";
+    }  
+</script>
+<!-- End Google Map -->
+<style>
+    .box {
+        transition: width 0.5s ease-in-out;
+    }
+
+    .box:hover {
+        width: 100%;
+    }
+
+    .img-circle {
+        display: inline-block;
+        position: relative;
+        width: 175px;
+        height: 175px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid yellow;
+    }
+
+    .img-circle img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .img-circle:hover img {
+        transform: scale(1.2);
+    }
+
+    #help {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+    }
+
+    #help:hover #overme {
+        top: -130%
+    }
+
+    body {
+        background: linear-gradient(45deg, rgb(66, 19, 19), rgb(85, 38, 54), rgb(255, 51, 0), rgb(3, 14, 77));
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    #bot-message {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 5px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 999;
+        width: 100px;
+        margin-left: -120px;
+        text-align: right;
+        border-radius: 20px;
+        transition: width 1s linear;
+    }
+
+    .help-section {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation: pulse 2s infinite;
+        z-index: 9999;
+    }
+
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .dropdown {
+        float: left;
+        overflow: hidden;
+    }
+
+    .dropdown .dropbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+    }
+
+    .dropdown-content a {
+        float: none;
+        color: black;
+        /* padding: 12px 16px; */
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        color: #ddd;
+
+    }
+
+    .dropdown-content a:hover {
+        background-color: #748019;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .wrapper {
+        height: 100vh;
+        width: 100%;
+        background: linear-gradient(309deg, rgba(131, 58, 180, 1) 0%, rgba(200, 42, 18, 0.87718837535014) 79%)
+    }
+
+    .wrapper h3 {
+        position: relative;
+        top: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        opacity: 0.8
+    }
+
+    .boxes div {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border: 2px solid #dda330
+    }
+
+    .boxes div:nth-child(1) {
+        top: 70%;
+        left: 10%;
+        animation: box-animate 10s infinite
+    }
+
+    .boxes div:nth-child(2) {
+        top: 20%;
+        left: 80%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(3) {
+        top: 50%;
+        left: 50%;
+        animation: box-animate 6s infinite
+    }
+
+    .boxes div:nth-child(4) {
+        top: 80%;
+        left: 60%;
+        animation: box-animate 15s infinite
+    }
+
+    .boxes div:nth-child(5) {
+        top: 30%;
+        left: 30%;
+        animation: box-animate 9s infinite
+    }
+
+    .boxes div:nth-child(6) {
+        top: 90%;
+        left: 90%;
+        animation: box-animate 12s infinite
+    }
+
+    .boxes div:nth-child(7) {
+        top: 80%;
+        left: 30%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(8) {
+        top: 40%;
+        left: 20%;
+        animation: box-animate 2s infinite
+    }
+
+    .boxes div:nth-child(9) {
+        top: 50%;
+        left: 80%;
+        animation: box-animate 2s infinite
+    }
+
+    @keyframes box-animate {
+        0% {
+            transform: scale(0) translateY(0) rotate(0);
+            opacity: 1
+        }
+
+        100% {
+            transform: scale(1.3) translateY(-90px) rotate(360deg);
+            opacity: 0
+        }
+    }
+
+
+    @import url('https://fonts.googleapis.com/css?family=Abel');
+
+
+    .cardcontainer {
+        width: 350px;
+        height: 500px;
+        background-color: white;
+        margin-left: auto;
+        margin-right: auto;
+        transition: 0.3s;
+    }
+
+    .cardcontainer:hover {
+        box-shadow: 0 0 45px gray;
+    }
+
+    .photo {
+        height: 300px;
+        width: 100%;
+    }
+
+    .photo img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .txt1 {
+        margin: auto;
+        text-align: center;
+        font-size: 17px;
+    }
+
+    .content {
+        width: 80%;
+        height: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: -33px;
+    }
+
+    .photos {
+        width: 90px;
+        height: 30px;
+        background-color: #E74C3C;
+        color: white;
+        position: relative;
+        top: -30px;
+        padding-left: 10px;
+        font-size: 20px;
+    }
+
+    .txt4 {
+        font-size: 27px;
+        position: relative;
+        top: 33px;
+    }
+
+    .txt5 {
+        position: relative;
+        top: 18px;
+        color: #E74C3C;
+        font-size: 23px;
+    }
+
+    .txt2 {
+        position: relative;
+        top: 10px;
+    }
+
+    .cardcontainer:hover>.photo {
+        height: 200px;
+        animation: move1 0.5s ease both;
+    }
+
+    @keyframes move1 {
+        0% {
+            height: 300px
+        }
+
+        100% {
+            height: 200px
+        }
+    }
+
+    .cardcontainer:hover>.content {
+        height: 200px;
+    }
+
+    .footer {
+        width: 80%;
+        height: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: white;
+        position: relative;
+        top: -15px;
+    }
+
+    .btn {
+        position: relative;
+        top: 20px;
+    }
+
+    #heart {
+        cursor: pointer;
+    }
+
+    .like {
+        float: right;
+        font-size: 22px;
+        position: relative;
+        top: 20px;
+        color: #333333;
+    }
+
+    .fa-gratipay {
+        margin-right: 10px;
+        transition: 0.5s;
+    }
+
+    .fa-gratipay:hover {
+        color: #E74C3C;
+    }
+
+    .txt3 {
+        color: gray;
+        position: relative;
+        top: 18px;
+        font-size: 14px;
+    }
+
+    .comments {
+        float: right;
+        cursor: pointer;
+    }
+
+    .fa-clock,
+    .fa-comments {
+        margin-right: 7px;
+    }
+
+    .a {
+        text-decoration: none;
+        color: inherit;
+        font-size: 24px;
+    }
+
+    .pp {
+        font-weight: 700;
+        text-align: center;
+        font-size: 40px;
+        font-family: Hack, sans-serif;
+        text-transform: uppercase;
+        background: linear-gradient(90deg, #000, #fff, #000);
+        letter-spacing: 5px;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-repeat: no-repeat;
+        background-size: 80%;
+        animation: shine 5s linear infinite;
+        position: relative;
+    }
+
+    @keyframes shine {
+        0% {
+            background-position-x: -500%;
+        }
+
+        100% {
+            background-position-x: 500%;
+        }
+    }
+
+    /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+    .words {
+        color: #ffffff;
+        font-size: 0;
+        line-height: 1.5;
+    }
+
+    .words span {
+        font-size: 5rem;
+        display: inline-block;
+        animation: move 3s ease-in-out infinite;
+    }
+
+    @keyframes move {
+        0% {
+            transform: translate(-30%, 0);
+        }
+
+        50% {
+            text-shadow: 0 25px 50px rgba(0, 0, 0, 0.75);
+        }
+
+        100% {
+            transform: translate(30%, 0);
+        }
+    }
+
+    .words span:nth-child(2) {
+        animation-delay: 0.5s;
+    }
+
+    .words span:nth-child(3) {
+        animation-delay: 1s;
+    }
+
+    .words span:nth-child(4) {
+        animation-delay: 1.5s;
+    }
+
+    .words span:nth-child(5) {
+        animation-delay: 2s;
+    }
+
+    .words span:nth-child(6) {
+        animation-delay: 2.5s;
+    }
+
+    .words span:nth-child(7) {
+        animation-delay: 3s;
+    }
+
+
+    .searchbar {
+        margin-bottom: auto;
+        margin-top: auto;
+        height: 60px;
+        background-color: #353b48;
+        border-radius: 30px;
+        padding: 10px;
+    }
+
+    .search_input {
+        color: white;
+        border: 0;
+        outline: 0;
+        background: none;
+        width: 0;
+        caret-color: transparent;
+        line-height: 40px;
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search_input {
+        padding: 0 10px;
+        width: 450px;
+        caret-color: red;
+        transition: width 0.4s linear;
+    }
+
+    .searchbar:hover>.search_icon {
+        background: white;
+        color: #e74c3c;
+    }
+
+    .search_icon {
+        height: 40px;
+        width: 40px;
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        color: rgb(189, 11, 11);
+        text-decoration: none;
+    }
+</style>
+
+{% endblock %}

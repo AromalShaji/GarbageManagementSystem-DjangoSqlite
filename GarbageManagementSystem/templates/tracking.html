@@ -1,0 +1,794 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title%}
+Track order
+{% endblock %}
+
+{% block content%}
+{% if messages %}
+<ul class="messages" style="width: 100%;">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #666;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+{% for i in servicedetails %}
+<div class="container px-1 px-md-4 py-5 mx-auto">
+    <div class="card">
+        <div class="row d-flex justify-content-between px-3 top">
+            <div class="d-flex">
+                <h5>WASTE COLLECTING ORDER <span class="text-primary font-weight-bold">({{i.companyid}})</span></h5>
+            </div>
+            <div class="d-flex flex-column text-sm-right">
+                <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                <p class="mb-0">Rate <span class="font-weight-bold">{{i.rate}}</span></p>
+            </div>
+        </div> <!-- Add class 'active' to progress -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <ul id="progressbar" class="text-center">
+                    <li class="active step0"></li>
+                    {% if i.out_for_service == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                    {% if i.arrived_near == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                    {% if i.completed == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="row justify-content-between top">
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Order<br>Scheduled</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Out for<br>Service</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Employees Arrive<br>at nearest Location</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Service<br>Arrived</p>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <div class="d-flex">
+                    <small style="margin-left: 120px;">
+                        <span class="text-danger font-weight-bold">
+                            {% for j in serviceemployeedetails|slice:":1" %}
+                            <p style="text-transform:uppercase;">CONTACT : {{j.userid}}, {{j.ephone}}</p>
+                            {% endfor %}
+                        </span>
+                    </small>
+                    {% if i.completed == 1 %}
+                    <small style="margin-left: 520px;">
+                        <span class="text-danger font-weight-bold">
+                            <button class="btn btn-success" onclick="toggleFeedbackSection()"
+                                style="border-radius: 20px; margin-bottom: 10px;">Leave Feedback</button>
+
+                            <div id="feedbackSection">
+                                <div id="blackTopSection">
+                                    <span class="closeIcon" onclick="toggleFeedbackSection()">X</span>
+                                </div>
+                                <center style="margin-top: 100px;">
+                                    <h2>Send your feedback</h2>
+                                    <div>
+                                        <button class="emojiButton" onclick="selectEmoji('Satisfied')">😀</button>
+                                        <button class="emojiButton" onclick="selectEmoji('Unsatisfied')">😞</button>
+                                        <button class="emojiButton" onclick="selectEmoji('Neutral')">🙁</button>
+                                    </div>
+                                    <form method="post" action="{% url 'service_delivery_feedback' i.id %}">
+                                        {% csrf_token %}
+                                        <input id="feedbackInput" name="feedbackInput" type="text"
+                                            placeholder="Enter your feedback"
+                                            style="width: 260px;height: 50px; border-radius: 20px;">
+                                        <button class="btn btn-success" onclick="showThankYou()">Send</button>
+                                    </form>
+                                </center>
+                                <div id="thankYouPopup" style="display: none;">
+                                    <h2>Thank you for your feedback!</h2>
+                                </div>
+                            </div>
+                        </span>
+                    </small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if i.out_for_service == 1 and i.arrived_near == 0 and i.completed == 0 %}
+        <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+            data-toggle="modal" data-target="#exampleModal">Live
+            Tracking</button>
+        {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 0%}
+        <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+            data-toggle="modal" data-target="#exampleModal">Live
+            Tracking</button>
+        {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 1 %}
+        <button type="button" class="btn btn-success">Completed</button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+{% for i in dumbster_details %}
+<div class="container px-1 px-md-4 py-5 mx-auto">
+    <div class="card">
+        <div class="row d-flex justify-content-between px-3 top">
+            <div class="d-flex">
+                <h5>DUMBSTER ORDER <span class="text-primary font-weight-bold">({{i.companyid}})</span></h5>
+            </div>
+            <div class="d-flex flex-column text-sm-right">
+                <p class="mb-0">Expected Arrival <span>{{i.date}} : {{i.time}}</span></p>
+                <p class="mb-0">Location <span class="font-weight-bold">{{i.location}}</span></p>
+                <p class="mb-0">Address <span class="font-weight-bold">{{i.address}}</span></p>
+                <p class="mb-0">Pincode <span class="font-weight-bold">{{i.pincode}}</span></p>
+                <p class="mb-0">Number of dumbster <span class="font-weight-bold">{{i.numberofdumbster}}</span></p>
+                <p class="mb-0">Number of days <span class="font-weight-bold">{{i.numberofday}}</span></p>
+                <p class="mb-0">Size <span class="font-weight-bold">{{i.size}}</span></p>
+                <p class="mb-0">Rate <span class="font-weight-bold">{{i.rate}}</span></p>
+            </div>
+        </div> <!-- Add class 'active' to progress -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <ul id="progressbar" class="text-center">
+                    <li class="active step0"></li>
+                    {% if i.out_for_service == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                    {% if i.arrived_near == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                    {% if i.completed == 1 %}
+                    <li class="active step0"></li>
+                    {% else %}
+                    <li class="step0"></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="row justify-content-between top">
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Order<br>Scheduled</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Order<br>Shipped</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Order<br>En Route</p>
+                </div>
+            </div>
+            <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                <div class="d-flex flex-column">
+                    <p class="font-weight-bold">Order<br>Arrived</p>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <div class="d-flex">
+                    <small style="margin-left: 120px;">
+                        <span class="text-danger font-weight-bold">
+                            {% for j in job_dumbster|slice:":1" %}
+                            {% if i.date == j.date and i.companyid == j.companyid%}
+                            <p style="text-transform:uppercase;">CONTACT : {{j.employeeid}},{{j.employeephone}}</p>
+                            {% endif%}
+                            {% endfor %}
+                        </span>
+                    </small>
+                    {% if i.completed == 1 %}
+                    <small style="margin-left: 520px;">
+                        <span class="text-danger font-weight-bold">
+                            <button class="btn btn-success" onclick="toggleFeedbackSection()"
+                                style="border-radius: 20px; margin-bottom: 10px;">Leave Feedback</button>
+
+                            <div id="feedbackSection">
+                                <div id="blackTopSection">
+                                    <span class="closeIcon" onclick="toggleFeedbackSection()">X</span>
+                                </div>
+                                <center style="margin-top: 100px;">
+                                    <h2>Send your feedback</h2>
+                                    <div>
+                                        <button class="emojiButton" onclick="selectEmoji('Satisfied')">😀</button>
+                                        <button class="emojiButton" onclick="selectEmoji('Unsatisfied')">😞</button>
+                                        <button class="emojiButton" onclick="selectEmoji('Neutral')">🙁</button>
+                                    </div>
+                                    <form method="post" action="{% url 'dumpster_delivery_feedback' i.id %}">
+                                        {% csrf_token %}
+                                        <input id="feedbackInput" name="feedbackInput" type="text"
+                                            placeholder="Enter your feedback"
+                                            style="width: 260px; height: 50px; border-radius: 20px;">
+                                        <button class="btn btn-success" onclick="showThankYou()">Send</button>
+                                    </form>
+                                </center>
+                                <div id="thankYouPopup" style="display: none;">
+                                    <h2>Thank you for your feedback!</h2>
+                                </div>
+                            </div>
+                        </span>
+                    </small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if i.out_for_service == 1 and i.arrived_near == 0 and i.completed == 0 %}
+        <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+            data-toggle="modal" data-target="#exampleModal">Live
+            Tracking</button>
+        {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 0%}
+        <button type="button" onclick="openMapPopup('{{i.latitude}}','{{i.longitude}}')" class="btn btn-primary"
+            data-toggle="modal" data-target="#exampleModal">Live
+            Tracking</button>
+        {% elif i.out_for_service == 1 and i.arrived_near == 1 and i.completed == 1 %}
+        <button type="button" class="btn btn-success">Completed</button>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+<script>
+    function openMapPopup(lat, lon) {
+        // define the size of the popup window
+        var width = 800;
+        var height = 600;
+
+        // calculate the position of the popup window on the screen
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // create the popup window
+        var popupWindow = window.open('', 'mapPopup', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+
+        // create the map inside the popup window
+        var mapDiv = popupWindow.document.createElement('div');
+        mapDiv.style.width = '100%';
+        mapDiv.style.height = '100%';
+        popupWindow.document.body.appendChild(mapDiv);
+
+        // initialize the map
+
+        navigator.geolocation.getCurrentPosition(position => {
+            // const { latitude, longitude } = position.coords;
+            const latitude = lat;
+            const longitude = lon;
+            mapDiv.innerHTML = '<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
+        });
+    }
+
+</script>
+<script>
+    function toggleFeedbackSection() {
+        var feedbackSection = document.getElementById("feedbackSection");
+        feedbackSection.classList.toggle("open");
+    }
+
+    function selectEmoji(value) {
+        var feedbackInput = document.getElementById("feedbackInput");
+        feedbackInput.value = value;
+    }
+
+    function showThankYou() {
+        var thankYouPopup = document.getElementById("thankYouPopup");
+        thankYouPopup.style.display = "block";
+        toggleFeedbackSection(); // Close the feedback section
+        setTimeout(function () {
+            thankYouPopup.style.display = "none";
+        }, 3000); // Hide the thank you popup after 3 seconds (3000 milliseconds)
+    }
+</script>
+<style>
+    #feedbackSection {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 50%;
+        width: 50%;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    #feedbackSection.open {
+        display: block;
+    }
+
+    /* CSS styles for the black top section */
+    #blackTopSection {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background-color: black;
+        color: white;
+        padding: 10px;
+        box-sizing: border-box;
+        z-index: 9998;
+    }
+
+    #blackTopSection .closeIcon {
+        color: white;
+        cursor: pointer;
+    }
+
+    /* CSS styles for the emoji buttons */
+    .emojiButton {
+        font-size: 30px;
+        padding: 0;
+        margin: 5px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    body {
+        background-image: url(../static/images/driverimage.jpg);
+        height: 100%;
+        max-width: 100%;
+        margin: 0px;
+        background: linear-gradient(90deg, rgb(91, 42, 0), rgb(85, 38, 54), rgb(70, 22, 78), rgb(3, 14, 77));
+        height: 100vh;
+        width: 100vw;
+        background-size: 600% 100%;
+        animation: mygradient 1s linear infinite alternate
+    }
+
+    .card {
+        z-index: 0;
+        background-color: #ECEFF1;
+        padding-bottom: 20px;
+        margin-top: 90px;
+        margin-bottom: 90px;
+        border-radius: 10px;
+        opacity: 0.9;
+    }
+
+    .top {
+        padding-top: 40px;
+        padding-left: 13% !important;
+        padding-right: 13% !important
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455A64;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400
+    }
+
+    #progressbar .step0:before {
+        font-family: FontAwesome;
+        content: "\f10c";
+        color: #fff
+    }
+
+    #progressbar li:before {
+        width: 40px;
+        height: 40px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        background: #C5CAE9;
+        border-radius: 50%;
+        margin: auto;
+        padding: 0px
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 12px;
+        background: #C5CAE9;
+        position: absolute;
+        left: 0;
+        top: 16px;
+        z-index: -1
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        position: absolute;
+        left: -50%
+    }
+
+    #progressbar li:nth-child(2):after,
+    #progressbar li:nth-child(3):after {
+        left: -50%
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        position: absolute;
+        left: 50%
+    }
+
+    #progressbar li:last-child:after {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px
+    }
+
+    #progressbar li:first-child:after {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #651FFF
+    }
+
+    #progressbar li.active:before {
+        font-family: FontAwesome;
+        content: "\f00c"
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        margin-right: 15px
+    }
+
+    .icon-content {
+        padding-bottom: 20px
+    }
+
+    @media screen and (max-width: 992px) {
+        .icon-content {
+            width: 50%
+        }
+    }
+
+    @keyframes mygradient {
+        0% {
+            background-position: 0%
+        }
+
+        100% {
+            background-position: 100%
+        }
+    }
+
+
+    @keyframes wave {
+        0% {
+            transform: rotate(0deg)
+        }
+
+        50% {
+            transform: rotate(90deg)
+        }
+
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    #wave {
+        height: 100%;
+        overflow: hidden
+    }
+
+    #wave:before {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(24, 11, 4, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s ease-in-out infinite;
+        animation-delay: -3s
+    }
+
+    #wave:after {
+        content: '';
+        overflow: hidden;
+        position: absolute;
+        bottom: 12%;
+        left: -250vw;
+        width: 600vw;
+        height: 600vw;
+        background: rgba(81, 33, 7, 0.375);
+        border-radius: 48% 52% 52% 48% / 48% 52% 48% 52%;
+        animation: wave 9s linear infinite
+    }
+
+
+    .order-card {
+        color: #fff;
+    }
+
+    .bg-c-blue {
+        background: linear-gradient(45deg, #4099ff, #73b4ff);
+    }
+
+    .bg-c-green {
+        background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+    }
+
+    .bg-c-yellow {
+        background: linear-gradient(45deg, #FFB64D, #ffcb80);
+    }
+
+    .bg-c-pink {
+        background: linear-gradient(45deg, #FF5370, #ff869a);
+    }
+
+
+    .card {
+        border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+        border: none;
+        margin-bottom: 30px;
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card .card-block {
+        padding: 25px;
+    }
+
+    .order-card i {
+        font-size: 26px;
+    }
+
+    .f-left {
+        float: left;
+    }
+
+    .f-right {
+        float: right;
+    }
+
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900");
+    @import url("https://cdn.linearicons.com/free/1.0.0/icon-font.min.css");
+
+
+
+    .glow-on-hover {
+        width: 150px;
+        height: 30px;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: rgba(255, 138, 49, 0.718);
+        cursor: pointer;
+        position: relative;
+        z-index: 0;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:before {
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .glow-on-hover:active {
+        color: #000
+    }
+
+    .glow-on-hover:active:after {
+        background: transparent;
+    }
+
+    .glow-on-hover:hover:before {
+        opacity: 1;
+    }
+
+    .glow-on-hover:after {
+        z-index: -1;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
+
+    @keyframes glowing {
+        0% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 400% 0;
+        }
+
+        100% {
+            background-position: 0 0;
+        }
+    }
+
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var alertMessage = $('meta[name="X-AlertMessage"]').attr('content');
+        if (alertMessage) {
+            alert(alertMessage);
+        }
+    });
+</script>
+<script type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1kUoZpfNu-4Cpz-PMtIQsxjGqWPAgmuA=myMap">
+</script>
+{% endblock %}

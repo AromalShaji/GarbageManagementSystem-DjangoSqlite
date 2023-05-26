@@ -1,0 +1,465 @@
+{% load static %}
+<html>
+
+<head>
+    <title>
+        {% block title%} RENT DUMBSTER {% endblock %}</title>
+    <meta name="viewport" content="width=device-width,intial-scale=1.0">
+    <link rel="icon" type="image/png"
+        href="{% static '/images/rubbish-bins-waste-paper-baskets-computer-icons-recycling-bin-garbage-bin-modeling-c592ae6b905a9e852cf3c3e5261cb176.png' %}">
+</head>
+
+<body style="background-color: #222; height: fit-content; opacity: 0.9;">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <div class="container contact-form">
+        <div class="contact-image">
+            <img src="{% static '/images/dumbster.jpg' %}" alt="rocket_contact" />
+        </div>
+        <form method="POST" action="{% url 'bookdumbsterpaymentpage' dumbsterdetails.companyid%}"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>RENT DUMPSTER </h3>
+            <h3>
+                <p><br><a href="https://codepen.io/grohit/">Dumpster for renting </a></p>
+            </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="form">
+                                <center>
+                                    <b class="font-weight-bold">Number of Dumpster :</b>
+                                    <div class="value-button" id="decrease" onclick="decreaseValue()"
+                                        value="Decrease Value" style="height: 40px;">-</div>
+                                    <input type="number" name="number" id="number" value="1"
+                                        max="{{dumbsterdetails.number}}" min="1" required="required"
+                                        style="font-family: monospace; height: 40px;" readonly />
+                                    <div class="value-button" id="increase" onclick="increaseValue()"
+                                        value="Increase Value" style="height: 40px;">+</div>
+                                </center>
+                                <small class="text-danger" style="margin-right: 170px;">Dumpster Rate :
+                                    {{dumbsterdetails.rate}}</small>
+                                <input type="number" name="ratevalue" id="ratevalue" class="form-control"
+                                    value="{{dumbsterdetails.rate}}" hidden />
+                            </div>
+                            <div class="form">
+                                <center style="margin-right: 40px;">
+                                    <b class="font-weight-bold">Number of Days :</b>
+                                    <div class="value-button" id="decrease" onclick="decreaseValues()"
+                                        value="Decrease Value" style="height: 40px;">-</div>
+                                    <input type="number" name="day" id="day" value="1" min="1" required="required"
+                                        style="font-family: monospace; height: 40px; width: 40px;" readonly />
+                                    <div class="value-button" id="increase" onclick="increaseValues()"
+                                        value="Increase Value" style="height: 40px;">+</div>
+                                    <input type="number" name="dayvalue" id="dayvalue" class="form-control" value="1"
+                                        hidden />
+                                </center>
+                                <small class="text-danger">Total Rate will be display on your payment section</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Dumpster Rate :</b>
+                        <input type="number" name="rate" id="rate" class="form-control" placeholder="Rate per yard"
+                            rows="3" style="font-family: monospace; background-color: #ffffff;"
+                            value="{{dumbsterdetails.rate}}" readonly required="required" />
+                        <small class="text-danger" style="margin-left: 10px;">* perday</small>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Location :</b>
+                        <input type="text" name="location" id="location" class="form-control" placeholder="Location"
+                            style="font-family: monospace; background-color: #ffffff;" value="{{dis.location}}"
+                            required="required" />
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Address :</b>
+                        <div style="display: flex; align-items: center;">
+                            <input type="text" id="latitude" name="latitude" hidden>
+                            <input type="text" id="longitude" name="longitude" hidden>
+                            <input type="text" name="address" id="address" class="form-control" placeholder="Location"
+                                style="font-family: monospace; background-color: #ffffff;" value="{{dis.address}}"
+                                required="required" />
+                            <button class="icon btn btn-primary" type="button" onclick="openMapPopup()"
+                                data-toggle="modal" data-target="#exampleModal"
+                                style="margin-left: 5px;">&#x1F4CC;</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="btnSubmit" class="btnContact" value="Submit"
+                            href="{% url 'bookdumbsterpaymentpage' dumbsterdetails.companyid%}" required="required" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div>
+                            <b class="font-weight-bold">Enter the Size *</b>
+                            <select id="myDropdown" name="size" style="width: 90px; border-radius: 20px; height: 35px;"
+                                required="required"></select>
+                            <script>
+                                var csv = "{{dumbsterdetails.size}}";
+                                var options = csv.split(",");
+                                var dropdown = document.getElementById("myDropdown");
+                                for (var i = 0; i < options.length; i++) {
+                                    var option = document.createElement("option");
+                                    option.value = options[i];
+                                    option.text = options[i];
+                                    dropdown.add(option);
+                                }
+                            </script>
+                        </div>
+                        <small class="text-secondary" style="margin-left: 0px;">Select the available size :
+                            <b>{{dumbsterdetails.size}}</b></small>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Dimension :</b>
+                        <textarea name="dimension" class="form-control" placeholder="{{dumbsterdetails.dimension}}"
+                            rows="3" style="font-family: monospace; background-color: #ffffff; color: #fff;"
+                            value="{{dumbsterdetails.number}}" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Pincode :</b>
+                        <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Pincode"
+                            style="font-family: monospace; background-color: #ffffff;" value="{{dis.pincode}}"
+                            required="required" />
+                    </div>
+                    <div class="form-group">
+                        <b class="font-weight-bold">Phone :</b>
+                        <input type="tel" name="phone" id="phone" class="form-control"
+                            pattern="^\+(?:[0-9] ?){6,14}[0-9]$" placeholder="Pincode"
+                            style="font-family: monospace; background-color: #ffffff;" value="{{dis.phone}}"
+                            required="required" />
+                    </div>
+                    <div class="form-group">
+                        <label for="choose-file" class="label-title">
+                            <b class="font-weight-bold">Date :</b>
+                        </label><br>
+                        <input type="date" id="date" name="date" required
+                            style="background-color: #f0ecec; border-radius: 20px; height: 40px; font-family: monospace;"><br>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1kUoZpfNu-4Cpz-PMtIQsxjGqWPAgmuA=myMap">
+    </script>
+    <script>
+        window.onload = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+        var la, lo;
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            la = latitude;
+            var longitude = position.coords.longitude;
+            lo = longitude;
+            var latitudeFields = document.getElementsByName("latitude");
+            for (var i = 0; i < latitudeFields.length; i++) {
+                latitudeFields[i].value = latitude;
+            }
+
+            var longitudeFields = document.getElementsByName("longitude");
+            for (var i = 0; i < longitudeFields.length; i++) {
+                longitudeFields[i].value = longitude;
+            }
+            // Do something with the latitude and longitude values, e.g. send them to the server using AJAX
+        }
+
+        function openMapPopup() {
+            // define the size of the popup window
+            lat = la;
+            lon = lo;
+            var width = 800;
+            var height = 600;
+
+            // calculate the position of the popup window on the screen
+            var left = (screen.width - width) / 2;
+            var top = (screen.height - height) / 2;
+
+            // create the popup window
+            var popupWindow = window.open('', 'mapPopup', 'width=' + width + ',height=' + height + ',left=' + left + ',top=' + top);
+
+            // create the map inside the popup window
+            var mapDiv = popupWindow.document.createElement('div');
+            mapDiv.style.width = '100%';
+            mapDiv.style.height = '100%';
+            popupWindow.document.body.appendChild(mapDiv);
+
+            // initialize the map
+
+            navigator.geolocation.getCurrentPosition(position => {
+                // const { latitude, longitude } = position.coords;
+                const latitude = lat;
+                const longitude = lon;
+                mapDiv.innerHTML = '<iframe width="100%" height="100%" src="https://maps.google.com/maps?q=' + latitude + ',' + longitude + '&amp;z=15&amp;output=embed"></iframe>';
+            });
+        }
+
+    </script>
+    <script>
+        var x, y, a;
+        var m, n;
+        // number of dumbster
+        function increaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById('number').value = value;
+            rate = parseInt(document.getElementById("rate").value);
+            ratevalue = parseInt(document.getElementById("ratevalue").value);
+            m = ratevalue;
+            a = ratevalue
+            m = m + rate;
+            document.getElementById("rate").value = m;
+            x = m;
+            document.getElementById("x").value = x;
+        }
+        function decreaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value < 1 ? value = 1 : '';
+            value--;
+            document.getElementById('number').value = value;
+            rate = parseInt(document.getElementById("rate").value);
+            ratevalue = parseInt(document.getElementById("ratevalue").value);
+            n = ratevalue;
+            rate = rate - n;
+            document.getElementById("rate").value = rate;
+            y = n;
+        }
+
+        // number of days
+        function increaseValues() {
+            var value = parseInt(document.getElementById('day').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById('day').value = value;
+            rate = parseInt(document.getElementById("rate").value);
+            var x = rate * value;
+            document.getElementById('dayvalue').value = x;
+        }
+
+        function decreaseValues() {
+            var value = parseInt(document.getElementById('day').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value < 1 ? value = 1 : '';
+            value--;
+            document.getElementById('day').value = value;
+        }
+
+        $(document).ready(function () {
+            $('.featchk').click(function () {
+                var txt = "";
+                $('.featchk:checked').each(function () {
+                    txt += $(this).val() + ","
+                });
+                txt = txt.substring(0, txt.length - 1);
+                $('#txtvalues').val(txt);
+            });
+        });
+        $(function () {
+            var dtToday = new Date();
+            dtToday.setDate(dtToday.getDate() + 1);
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+            var minDate = year + '-' + month + '-' + day;
+            $('#date').attr('min', minDate);
+        });
+    </script>
+    <style>
+        .form {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .value-button {
+            display: inline-block;
+            border: 1px solid #ddd;
+            margin: 0px;
+            width: 40px;
+            height: 20px;
+            text-align: center;
+            vertical-align: middle;
+            padding: 11px 0;
+            background: #eee;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .value-button:hover {
+            cursor: pointer;
+        }
+
+        form #decrease {
+            margin-right: -4px;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .form #increase {
+            margin-left: -4px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .form #input-wrap {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .form input#number {
+            text-align: center;
+            border: none;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            margin: 0px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .form input#day {
+            text-align: center;
+            border: none;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            margin: 0px;
+            width: 40px;
+            height: 40px;
+        }
+
+
+        .form input[type=number]::-webkit-inner-spin-button,
+        .form input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        body {
+            background-image: url(../static/images/6.jpg);
+            height: fit-content;
+            background-size: cover;
+        }
+
+        .container {
+            opacity: 1.0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 24px;
+        }
+
+        p {
+            font-weight: 700;
+            text-align: center;
+            font-size: 40px;
+            font-family: Hack, sans-serif;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #000, #fff, #000);
+            letter-spacing: 5px;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: shine 5s linear infinite;
+            position: relative;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position-x: -500%;
+            }
+
+            100% {
+                background-position-x: 500%;
+            }
+        }
+
+        /*  Checkout my other pens on  https://codepen.io/grohit/  */
+
+
+        .contact-form {
+            background: #fff;
+            margin-top: 10%;
+            margin-bottom: 5%;
+            width: 60%;
+            border-radius: 20px;
+            opacity: 0.9;
+        }
+
+        .contact-form .form-control {
+            border-radius: 1rem;
+        }
+
+        .contact-image {
+            text-align: center;
+        }
+
+        .contact-image img {
+            border-radius: 6rem;
+            width: 11%;
+            margin-top: -3%;
+            transform: rotate(29deg);
+        }
+
+        .contact-form form {
+            padding: 14%;
+        }
+
+        .contact-form form .row {
+            margin-bottom: -7%;
+        }
+
+        .contact-form h3 {
+            margin-bottom: 8%;
+            margin-top: -10%;
+            text-align: center;
+            color: #0062cc;
+        }
+
+        .contact-form .btnContact {
+            width: 50%;
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5%;
+            background: #dc3545;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .btnContactSubmit {
+            width: 50%;
+            border-radius: 1rem;
+            padding: 1.5%;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+
+</body>
+
+</html>
